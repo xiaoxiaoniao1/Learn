@@ -14,6 +14,8 @@
 1. 使用命令`cd /etc/sysconfig/network-scripts/` ，找到以太网卡配置文件ifcfg-enp**文件，文件名后面的数字一般是随机生成的。把该文件里onboot的值修改为yes。
 2. 若`ifconfig`命令无法使用，则需使用`yum install net-tools.x86_64` 命令来安装该网络工具包。安装完成后使用该命令即可查看虚拟机所获得的IP。
 
+若发现无法ping通一些域名，可打开`vi /etc/resolv.conf`，增加条目 nameserver 8.8.8.8 或者 nameserver 114.114.114.114（其他可用的DNS服务器亦可）。
+
 ## 安装VMware Tools（可选）
 VMware Tools 是 VMware 虚拟机中自带的一种增强工具，可实现主机与虚拟机之间的拖拽共享文件，以及鼠标在虚拟机和主机之间自由移动（无须再按 ctrl+alt ）。
 
