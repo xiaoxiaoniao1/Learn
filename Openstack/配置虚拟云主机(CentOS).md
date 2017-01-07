@@ -16,7 +16,7 @@
 
 若发现无法ping通一些域名，可打开`vi /etc/resolv.conf`，增加条目 nameserver 8.8.8.8 或者 nameserver 114.114.114.114（其他可用的DNS服务器亦可）。
 
-若需使同一网络上的各个虚机能互相解析彼此的主机名为IP地址，需要在每个虚机的/etc/hosts文件里写入每一台虚机的IP地址与主机名。如`172.18.216.211 mon.localdomain mon`。
+若需使同一网络上的各个虚机能互相解析彼此的主机名为IP地址，需要在每个虚机的/etc/hosts文件里写入每一台虚机的IP地址与主机名。如`172.18.216.211 mon.localdomain mon`。具体参考[/etc/hosts详解](http://www.jb51.net/LINUXjishu/77329.html)。
 
 ## 安装VMware Tools（可选）
 VMware Tools 是 VMware 虚拟机中自带的一种增强工具，可实现主机与虚拟机之间的拖拽共享文件，以及鼠标在虚拟机和主机之间自由移动（无须再按 ctrl+alt ）。
