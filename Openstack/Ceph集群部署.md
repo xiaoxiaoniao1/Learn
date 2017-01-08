@@ -11,7 +11,7 @@
 
 3. 所有虚机都安装 NTP 服务（用于同步所有虚机的时钟，以免时钟漂移导致故障）：`sudo yum install ntp ntpdate ntp-doc`。并确认所有虚机是否都已开启 SSH 服务：`service sshd status`。
 
-4. 关闭所有虚机的 SELinux：编辑 /etc/selinux/config ，设置SELINUX = disabled； 并执行`# setenforce 0`可即时生效；关闭后可使用`# getenforce`命令查看SELinux状态。
+4. 关闭所有虚机的 SELinux：编辑 /etc/selinux/config ，设置SELINUX = disabled； 执行`# setenforce 0`可即时生效。可使用`# getenforce`命令查看SELinux状态。
 
 5. 关闭所有虚机的防火墙服务：
 
