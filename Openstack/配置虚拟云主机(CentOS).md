@@ -11,10 +11,10 @@
 ## 配置IP地址
 安装完操作系统后，虚拟机并不能直接连接到网络，需要修改一下配置才能使虚拟机自动获得由物理机所分配的IP地址。
 
-1. 使用命令`cd /etc/sysconfig/network-scripts/` ，找到以太网卡配置文件 ifcfg-enp** 文件，文件名后面的数字一般是随机生成的。把该文件里onboot的值修改为yes。
+1. 使用命令`cd /etc/sysconfig/network-scripts/` ，找到以太网卡配置文件 ifcfg-e** 文件，文件名后面的数字一般是随机生成的。把该文件里onboot的值修改为yes。
 2. 若`ifconfig`命令无法使用，则需使用`yum install net-tools.x86_64` 命令来安装该网络工具包。安装完成后使用该命令即可查看虚拟机所获得的IP。
 
-~~若发现无法ping通一些域名，可打开`vi /etc/resolv.conf`，增加条目 nameserver 8.8.8.8 或者 nameserver 114.114.114.114（其他可用的DNS服务器亦可）。~~
+~~若发现无法ping通一些域名，可打开`vi /etc/resolv.conf`，增加条目 nameserver 8.8.8.8 或者 nameserver 114.114.114.114（其他可用的DNS服务器亦可）。~~若无法ping通域名，在 ifcfg-e\*\* 文件中增加`DNS1=8.8.8.8`。
 
 若需使同一网络上的各个虚机能互相解析彼此的主机名为IP地址，需要在每个虚机的 /etc/hosts 文件里写入每一台虚机的IP地址与主机名。如`172.18.216.211 mon`。具体参考 [/etc/hosts详解](http://os.51cto.com/art/200803/68170.htm) 。
 
