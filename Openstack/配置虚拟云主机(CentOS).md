@@ -4,7 +4,7 @@
 以 vSphere Client 为例，当一个新的云虚拟机（非模板复制）选择完硬件配置并创建完成后，需要在该虚拟机上安装操作系统：
 
  1. 下载操作系统的ISO文件（如CentOS-7-x86_64-DVD-1511.iso）到本地。
- 2.  通过本地的 VMware Workstation ，设置虚拟机的光驱为“启动时连接”与“已连接”，并使用ISO镜像文件为本地已下载的操作系统ISO文件。
+ 2. 通过本地的 VMware Workstation ，设置虚拟机的光驱为“启动时连接”与“已连接”，并使用ISO镜像文件为本地已下载的操作系统ISO文件。
  3. 重新启动虚拟机，进入操作系统安装界面，等待一段时间后安装完成。
 
 可通过`passwd`命令来修改root密码；编辑/etc/hosts和/etc/hostname来修改主机名。
@@ -14,7 +14,7 @@
 1. 使用命令`cd /etc/sysconfig/network-scripts/` ，找到以太网卡配置文件ifcfg-enp**文件，文件名后面的数字一般是随机生成的。把该文件里onboot的值修改为yes。
 2. 若`ifconfig`命令无法使用，则需使用`yum install net-tools.x86_64` 命令来安装该网络工具包。安装完成后使用该命令即可查看虚拟机所获得的IP。
 
-若发现无法ping通一些域名，可打开`vi /etc/resolv.conf`，增加条目 nameserver 8.8.8.8 或者 nameserver 114.114.114.114（其他可用的DNS服务器亦可）。
+~~若发现无法ping通一些域名，可打开`vi /etc/resolv.conf`，增加条目 nameserver 8.8.8.8 或者 nameserver 114.114.114.114（其他可用的DNS服务器亦可）。~~
 
 若需使同一网络上的各个虚机能互相解析彼此的主机名为IP地址，需要在每个虚机的/etc/hosts文件里写入每一台虚机的IP地址与主机名。如`172.18.216.211 mon.localdomain mon`。具体参考[/etc/hosts详解](http://os.51cto.com/art/200803/68170.htm)。
 
