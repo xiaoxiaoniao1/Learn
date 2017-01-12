@@ -88,4 +88,7 @@ Your public key has been saved in /ceph-admin/.ssh/id_rsa.pub.
 # ssh-copy-id {username}@node2
 # ssh-copy-id {username}@node3
 ```
+
+用该用户名ssh到另外节点上的该用户名，若无需密码即可成功连接，则说明设置成功。
+
 ## 创建存储集群
