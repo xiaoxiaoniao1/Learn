@@ -4,7 +4,7 @@
 ![Ceph集群架构](http://docs.ceph.org.cn/_images/ditaa-cffd08dd3e192a5f1d724ad7930cb04200b9b425.png)
 
 ## 准备阶段
-1. 在四台虚机上均安装同一版本的 CentOS7 操作系统（参考本文档同一目录下的[《配置虚拟云主机》](https://github.com/Zouzhp3/Learn/blob/master/Openstack/%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E4%BA%91%E4%B8%BB%E6%9C%BA(CentOS).md)）。所有虚机开启网络服务、更改主机名、并更换yum源为国内镜像站。
+1. 在四台虚机上均安装同一版本的 CentOS7 操作系统（参考本文档同一目录下的[《配置虚拟云主机》](https://github.com/Zouzhp3/Learn/blob/master/Openstack/%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E4%BA%91%E4%B8%BB%E6%9C%BA(CentOS).md)）。所有虚机开启网络服务、更改主机名、并更换 yum 源为国内镜像站（若默认源速度快的话也可以不更换 yum 源）。
 
 2. 更新所有虚机上的 /etc/hosts 文件，以便用于解析子网内所有虚机的主机名：
 > 在/etc/hosts 中增加所有虚机的“ IP地址 域名 主机名 ”格式的条目，如：`172.18.216.211 mon.localdomain mon`
@@ -92,3 +92,17 @@ Your public key has been saved in /ceph-admin/.ssh/id_rsa.pub.
 用该用户名ssh到另外节点上的该用户名，若无需密码即可成功连接，则说明设置成功。
 
 ## 创建存储集群
+以上一节中所创建的部署用户的身份，在管理节点上创建目录`mkdir my-cluster`，用于保存 ceph-deploy 生成的配置文件和密钥对。由于 ceph-deploy 会把文件输出到当前目录，所以请**确保在此目录下执行 ceph-deploy **。
+
+**注意**：在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果 Ceph 节点默认设置了 requiretty 那就会遇到报错：“抱歉，您必须拥有一个终端来执行 sudo”。可以这样禁用此功能：对**所有节点**执行`sudo visudo`，找到"Defaults requiretty"并将其注释掉，这样 ceph-deploy 就能用部署用户的身份登录并使用 sudo 了。
+
+在管理节点上，进入刚创建的放置配置文件的目录，用 ceph-deploy 执行如下步骤：
+
+1. 创建集群：`ceph-deploy new {initial-monitor-node(s)}`,其中{initial-monitor-node(s)}是监控节点的主机名。在当前目录下用 ls 检查 ceph-deploy 的输出，应该有一个 Ceph 配置文件、一个 monitor 密钥环和一个日志文件。
+2. 把 Ceph 配置文件里的默认副本数从 3 改成 2 ，这样只有两个 OSD 也可以达到 active + clean 状态。把下面这行加入 [global] 段：`osd pool default size = 2`。
+3. 安装 ceph ：`ceph-deploy install {ceph-node} [{ceph-node} ...]`,如： `ceph-deploy install admin mon osd0 osd1`。**注意**，此处可能会遇到报错：“RuntimeError: NoSectionError: No section: 'ceph'”，但只需执行`yum remove ceph-release`即可。
+
+## 参考文档
+[Ceph官方文档](http://docs.ceph.com/docs/master/)
+
+[Ceph官方文档中文版](http://docs.ceph.org.cn/)
