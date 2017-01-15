@@ -106,3 +106,5 @@ Your public key has been saved in /ceph-admin/.ssh/id_rsa.pub.
 [Ceph官方文档](http://docs.ceph.com/docs/master/)
 
 [Ceph官方文档中文版](http://docs.ceph.org.cn/)
+
+[博客：Ceph搭建过程中遇到的各种问题](http://blog.csdn.net/sinat_36023271/article/details/52402028)
