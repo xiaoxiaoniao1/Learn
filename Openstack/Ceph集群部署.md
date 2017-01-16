@@ -101,6 +101,17 @@ Your public key has been saved in /ceph-admin/.ssh/id_rsa.pub.
 1. 创建集群：`ceph-deploy new {initial-monitor-node(s)}`,其中{initial-monitor-node(s)}是监控节点的主机名。在当前目录下用 ls 检查 ceph-deploy 的输出，应该有一个 Ceph 配置文件、一个 monitor 密钥环和一个日志文件。
 2. 把 Ceph 配置文件里的默认副本数从 3 改成 2 ，这样只有两个 OSD 也可以达到 active + clean 状态。把下面这行加入 [global] 段：`osd pool default size = 2`。
 3. 安装 ceph ：`ceph-deploy install {ceph-node} [{ceph-node} ...]`,如： `ceph-deploy install admin mon osd0 osd1`。**注意**，此处可能会遇到报错：“RuntimeError: NoSectionError: No section: 'ceph'”，但只需执行`yum remove ceph-release`即可。
+4. 配置初始 monitor(s)、并收集所有密钥：`ceph-deploy mon create-initial`
+
+完成上述操作后，当前目录里应该会出现这些密钥环：
+```
+{cluster-name}.client.admin.keyring
+{cluster-name}.bootstrap-osd.keyring
+{cluster-name}.bootstrap-mds.keyring
+{cluster-name}.bootstrap-rgw.keyring
+```
+
+之后的操作请按照 Ceph 官方文档执行即可。
 
 ## 参考文档
 [Ceph官方文档](http://docs.ceph.com/docs/master/)
