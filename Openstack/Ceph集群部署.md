@@ -48,6 +48,7 @@ gpgkey=https://download.ceph.com/keys/release.asc
 # sudo yum install ceph-deploy
 ```
 
+注意：`yum update`命令似乎很重要，如果不更新可能在后面部署集群时会造成安装 Ceph 失败的问题。
 ### 创建部署 Ceph 的系统用户
 ceph-deploy 工具必须以系统普通用户登陆 Ceph 节点，且此用户需拥有无密码使用`sudo`的权限（因为它需要在安装软件及配置文件的过程中不必输入密码）。
 
