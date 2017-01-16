@@ -113,6 +113,8 @@ Your public key has been saved in /ceph-admin/.ssh/id_rsa.pub.
 
 之后的操作请按照 Ceph 官方文档执行即可。
 
+*经实践，能够顺利地在实验室云平台上部署，但在超算中心提供的云环境中总是卡死在软件更新这一步而无法部署成功。*
+
 ## 参考文档
 [Ceph官方文档](http://docs.ceph.com/docs/master/)
 
