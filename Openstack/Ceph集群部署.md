@@ -28,6 +28,8 @@
 ```
 sudo yum install -y yum-utils && sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ && sudo yum install --nogpgcheck -y epel-release && sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 && sudo rm /etc/yum.repos.d/dl.fedoraproject.org*
 ```
+这个源可能比较下载速度很慢，也可以直接使用`yum install --nogpgcheck -y epel-release`命令。
+
 把软件包源加入软件仓库。用文本编辑器创建一个 YUM库文件，其路径为 /etc/yum.repos.d/ceph.repo 。
 例如：`# sudo vim /etc/yum.repos.d/ceph.repo`
 
@@ -47,8 +49,9 @@ gpgkey=https://download.ceph.com/keys/release.asc
 # sudo yum update
 # sudo yum install ceph-deploy
 ```
+PS:有些系统执行`yum update`要更新多达上千的包（更新过程中可能卡死），而有些系统只需更新一百左右，可能与系统版本新旧有关。
 
-注意：`yum update`命令似乎很重要，如果不更新可能在后面部署集群时会造成安装 Ceph 失败的问题。
+注意：`yum update`命令很重要，如果不更新可能在后面部署集群时会造成安装 Ceph 失败的问题。
 ### 创建部署 Ceph 的系统用户
 ceph-deploy 工具必须以系统普通用户登陆 Ceph 节点，且此用户需拥有无密码使用`sudo`的权限（因为它需要在安装软件及配置文件的过程中不必输入密码）。
 
@@ -71,7 +74,7 @@ ceph-deploy 工具必须以系统普通用户登陆 Ceph 节点，且此用户�
 ### 允许无密码 SSH 登录
 因为 ceph-deploy 不支持输入密码，所以必须在管理节点上生成 SSH 密钥并把其公钥分发到各 Ceph 节点。 ceph-deploy 会尝试给初始 monitors 生成 SSH 密钥对。
 
-生成 SSH 密钥对，但不要用 sudo 或 root 用户。提示 “Enter passphrase” 时，直接回车，口令即为空：
+生成 SSH 密钥对，**但不要用 sudo 或 root 用户**。提示 “Enter passphrase” 时，直接回车，口令即为空：
 
 ```
 # ssh-keygen
@@ -97,12 +100,22 @@ Your public key has been saved in /ceph-admin/.ssh/id_rsa.pub.
 
 **注意**：在某些发行版（如 CentOS ）上，执行 ceph-deploy 命令时，如果 Ceph 节点默认设置了 requiretty 那就会遇到报错：“抱歉，您必须拥有一个终端来执行 sudo”。可以这样禁用此功能：对**所有节点**执行`sudo visudo`，找到"Defaults requiretty"并将其注释掉，这样 ceph-deploy 就能用部署用户的身份登录并使用 sudo 了。
 
+如果在某些地方碰到麻烦，想从头再来，可以用下列命令清除配置：
+```
+ceph-deploy purgedata {ceph-node} [{ceph-node}]
+ceph-deploy forgetkeys
+```
+用下列命令可以连 Ceph 安装包一起清除（但如果执行了 purge ，则必须重新安装 Ceph ）：
+```
+ceph-deploy purge {ceph-node} [{ceph-node}]
+```
+
 在管理节点上，进入刚创建的放置配置文件的目录，用 ceph-deploy 执行如下步骤：
 
 1. 创建集群：`ceph-deploy new {initial-monitor-node(s)}`,其中{initial-monitor-node(s)}是监控节点的主机名。在当前目录下用 ls 检查 ceph-deploy 的输出，应该有一个 Ceph 配置文件、一个 monitor 密钥环和一个日志文件。
 2. 把 Ceph 配置文件里的默认副本数从 3 改成 2 ，这样只有两个 OSD 也可以达到 active + clean 状态。把下面这行加入 [global] 段：`osd pool default size = 2`。
-3. 安装 ceph ：`ceph-deploy install {ceph-node} [{ceph-node} ...]`,如： `ceph-deploy install admin mon osd0 osd1`。**注意**，此处可能会遇到报错：“RuntimeError: NoSectionError: No section: 'ceph'”，但只需执行`yum remove ceph-release`即可。
-4. 配置初始 monitor(s)、并收集所有密钥：`ceph-deploy mon create-initial`
+3. 在各节点安装 ceph ：`ceph-deploy install {ceph-node} [{ceph-node} ...]`,如： `ceph-deploy install admin mon osd0 osd1`。**注意**，此处可能会遇到报错：“RuntimeError: NoSectionError: No section: 'ceph'”，但只需执行`yum remove ceph-release`即可。
+4. 配置初始 monitor(s)、并收集所有密钥：`ceph-deploy mon create-initial`。
 
 完成上述操作后，当前目录里应该会出现这些密钥环：
 ```
