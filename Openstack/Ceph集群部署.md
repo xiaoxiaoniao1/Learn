@@ -155,7 +155,7 @@ chmod 777  /var/local/osd1/*
 检查集群的健康状况：`ceph health`，若为“HEALTH_OK”则说明部署成功。
 
 ## 测试：定位某个对象
-作为练习，我们先创建一个对象，用 rados put 命令加上对象名、一个有数据的测试文件路径、并指定存储池(**在新安装好的集群上，只有一个名为 "rbd" 的存储池**)。例如：
+作为练习，我们先创建一个对象，用 rados put 命令加上对象名、一个有数据的测试文件路径、并指定存储池(**在新安装好的集群上，只有一个名为 "rbd" 的存储池**，用`ceph osd lspools`命令可列出集群的存储池)。例如：
  ```
 echo {Test-data} > testfile.txt
 rados put {object-name} {file-path} --pool=rbd
