@@ -25,7 +25,7 @@
 ### 安装 Ceph 部署工具
 把 Ceph 仓库添加到 ceph-deploy 管理节点，然后安装 ceph-deploy 。
 
-更新管理节点上的仓库，并安装 ceph-deploy：
+下载 EPEL (Extra Packages for Enterprise Linux)：
 ```
 sudo yum install -y yum-utils && sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/ && sudo yum install --nogpgcheck -y epel-release && sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 && sudo rm /etc/yum.repos.d/dl.fedoraproject.org*
 ```
