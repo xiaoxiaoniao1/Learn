@@ -153,6 +153,31 @@ chmod 777  /var/local/osd1/*
 确保你对 ceph.client.admin.keyring 有正确的操作权限：`sudo chmod +r /etc/ceph/ceph.client.admin.keyring`。
 
 检查集群的健康状况：`ceph health`，若为“HEALTH_OK”则说明部署成功。
+
+## 测试：定位某个对象
+作为练习，我们先创建一个对象，用 rados put 命令加上对象名、一个有数据的测试文件路径、并指定存储池(**在新安装好的集群上，只有一个名为 "rbd" 的存储池**)。例如：
+ ```
+echo {Test-data} > testfile.txt
+rados put {object-name} {file-path} --pool=rbd
+rados put test-object-1 testfile.txt --pool=rbd
+```
+为确认 Ceph 存储集群存储了此对象，可执行：
+ ```
+rados -p rbd ls
+```
+现在，定位对象：
+ ```
+ceph osd map {pool-name} {object-name}
+ceph osd map rbd test-object-1
+```
+Ceph 应该会输出对象的位置，例如：
+ ```
+osdmap e537 pool 'data' (0) object 'test-object-1' -> pg 0.d1743484 (0.4) -> up [1,0] acting [1,0]
+```
+用`rados rm`命令可删除此测试对象，例如：
+ ```
+rados rm test-object-1 --pool=rbd
+```
 ## 参考文档
 [Ceph官方文档](http://docs.ceph.com/docs/master/)
 
