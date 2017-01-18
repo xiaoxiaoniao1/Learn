@@ -3,6 +3,7 @@
 
 ![Ceph集群架构](http://docs.ceph.org.cn/_images/ditaa-cffd08dd3e192a5f1d724ad7930cb04200b9b425.png)
 
+*经实践，能够顺利地在实验室云平台上部署，但在超算中心提供的云环境中总是卡死在软件更新这一步而无法部署成功。*
 ## 准备阶段
 1. 在四台虚机上均安装同一版本的 CentOS7 操作系统（参考本文档同一目录下的[《配置虚拟云主机》](https://github.com/Zouzhp3/Learn/blob/master/Openstack/%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E4%BA%91%E4%B8%BB%E6%9C%BA(CentOS).md)）。所有虚机开启网络服务、更改主机名、并更换 yum 源为国内镜像站（若默认源速度快的话也可以不更换 yum 源）。
 
@@ -125,10 +126,33 @@ ceph-deploy purge {ceph-node} [{ceph-node}]
 {cluster-name}.bootstrap-rgw.keyring
 ```
 
-之后的操作请按照 Ceph 官方文档执行即可。
+之后再继续部署两个OSD：
 
-*经实践，能够顺利地在实验室云平台上部署，但在超算中心提供的云环境中总是卡死在软件更新这一步而无法部署成功。*
+1. 登录到 Ceph 节点、并给 OSD 守护进程创建一个目录。
+ ```
+ssh node2
+sudo mkdir /var/local/osd0
+exit
 
+ssh node3
+sudo mkdir /var/local/osd1
+exit
+```
+2. 从管理节点执行 ceph-deploy 来准备 OSD ：`ceph-deploy osd prepare {ceph-node}:/path/to/directory`，如：`ceph-deploy osd prepare osd0:/var/local/osd0 osd1:/var/local/osd1`。
+3. 激活 OSD ：`ceph-deploy osd activate {ceph-node}:/path/to/directory`，如：`ceph-deploy osd activate osd0:/var/local/osd0 osd1:/var/local/osd1`。注意：此处可能报错“ERROR: error creating empty object store in /var/local/osd0: (13) Permission denied”，解决方法是在各个节点上给/var/local/osd1/和/var/local/osd1/添加权限：
+ 
+ ```
+chmod 777  /var/local/osd0/
+chmod 777  /var/local/osd0/*
+chmod 777  /var/local/osd1/
+chmod 777  /var/local/osd1/*
+```
+
+用 ceph-deploy 把配置文件和 admin 密钥拷贝到管理节点和 Ceph 节点，这样每次执行 Ceph 命令行时就无需指定 monitor 地址和 ceph.client.admin.keyring 了：`ceph-deploy admin {admin-node} {ceph-node}`，如：`ceph-deploy admin admin mon osd0 osd1`。
+
+确保你对 ceph.client.admin.keyring 有正确的操作权限：`sudo chmod +r /etc/ceph/ceph.client.admin.keyring`。
+
+检查集群的健康状况：`ceph health`，若为“HEALTH_OK”则说明部署成功。
 ## 参考文档
 [Ceph官方文档](http://docs.ceph.com/docs/master/)
 
