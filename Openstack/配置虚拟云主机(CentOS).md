@@ -26,9 +26,9 @@ Linux的默认官方yum源在国内访问不佳、速度慢，因此把yum源更
 ## 关闭防火墙与SELinux
 使用某些网络应用时可能需要关闭防火墙与SELinux服务。
 
-关闭所有虚机的 SELinux：编辑 /etc/selinux/config ，设置SELINUX = disabled； 执行`# setenforce 0`可即时生效。可使用`# getenforce`命令查看SELinux状态。
+关闭 SELinux：编辑 /etc/selinux/config ，设置SELINUX = disabled； 执行`# setenforce 0`可即时生效。可使用`# getenforce`命令查看SELinux状态。
 
-关闭所有虚机的防火墙服务：
+关闭防火墙服务：
 
  ```
  # systemctl stop firewalld
