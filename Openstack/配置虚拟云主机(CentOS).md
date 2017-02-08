@@ -23,4 +23,14 @@ Linux的默认官方yum源在国内访问不佳、速度慢，因此把yum源更
 
 在修改完`/etc/yum.repos.d/`下yum源的CentOS-Base.repo后，依次执行`yum clean all`与`yum makecache`来删除与更新yum源的缓存。若在执行命令的过程中发现yum源总是切换到速度满的其他yum源进行下载，则可以在目录下修改该劣质yum源的repo文件，把其enabled值设置为0即可。
 
+## 关闭防火墙与SELinux
+使用某些网络应用时可能需要关闭防火墙与SELinux服务。
 
+关闭所有虚机的 SELinux：编辑 /etc/selinux/config ，设置SELINUX = disabled； 执行`# setenforce 0`可即时生效。可使用`# getenforce`命令查看SELinux状态。
+
+关闭所有虚机的防火墙服务：
+
+ ```
+ # systemctl stop firewalld
+ # systemctl disable firewalld
+ ```
