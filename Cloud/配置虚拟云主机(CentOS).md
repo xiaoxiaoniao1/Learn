@@ -34,3 +34,6 @@ Linux的默认官方yum源在国内访问不佳、速度慢，因此把yum源更
  # systemctl stop firewalld
  # systemctl disable firewalld
  ```
+ 
+## 更改语言
+修改配置文件`/etc/locale.conf`。若改为英文则写入：`LANG="en_US.UTF-8"`，改为中文则写入：`LANG="zh_CN.UTF-8"`。
