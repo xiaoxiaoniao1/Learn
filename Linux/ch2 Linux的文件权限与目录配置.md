@@ -28,6 +28,7 @@ drwx------   2    root   root     4096   Sep  5 14:09 .gconfd
 ```
 
 文件属性示意图如下：
+
 ![enter image description here](http://cn.linux.vbird.org/linux_basic/0210filepermission_files/0210filepermission_2.gif)
 
 第一列代表该文件的类型与权限，共计有十个字符：
