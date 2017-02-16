@@ -1,5 +1,7 @@
 # Linux的文件权限与目录配置
 ## 用户与用户组
+Linux的每个文件中，依据权限分为用户、用户组与其他人三种身份。用户可以有多个用户组的支持。
+
 - 默认情况下，系统上所有用户账号的相关信息都储存在 /etc/passwd 文件中。
 - 个人密码存储在 /etc/shadow 文件中
 - 所有组名都存储在 /etc/group 文件中
@@ -111,5 +113,9 @@ drwx------   2    root   root     4096   Sep  5 14:09 .gconfd
 - r(read)：读取该目录结构列表的权限
 - w(write)：读取该目录结构列表的权限，包括新建、删除、重命名该目录下的文件与目录
 - x(execute)：用户能否进入该目录成为工作目录的权限
+- 开放目录给人浏览时，至少应给予 r 与 x 的权限，但 w 权限不可随便给予。
 
 ## Linux目录配置
+FHS（Filesystem Hierarchy Standard）的主要目的在于规范每个特定目录下放置什么样的数据。所定义的三层主目录为/、/var、/usr 。有五个目录不可与根目录放在不同的分区，分别为/etc, /bin, /lib, /dev, /sbin。
+
+![enter image description here](http://cn.linux.vbird.org/linux_basic/0210filepermission_files/directory_tree.gif)
