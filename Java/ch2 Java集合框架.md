@@ -60,13 +60,26 @@ public class UserComparator implements Comparator<User>,java.io.Serializable{
 ## 队列与优先队列
 队列是一种先进先出的数据结构，元素被追加到队尾，然后从队列头删除。而在优先队列中，元素被赋予优先级，当访问元素时，拥有最高优先级的元素首先被删除。
 
-java.util.Queue 接口用附加的插入、提取和检验操作来扩展 java.util.Collection 接口。
+java.util.Queue 接口用附加的插入、提取和检验操作来扩展 java.util.Collection 接口。由于 LinkedList 类实现了 Deque 接口，Deque 又扩展了 Queue 接口，因此可用 LinkedList 来创建一个队列。
 
 ![1487299554 1](https://cloud.githubusercontent.com/assets/22606175/23050593/48d031ac-f4fe-11e6-83af-27cdc80d83ea.jpg)
 
 java.util.PriorityQueue 类实现一个优先队列，默认情况下按照 Comparable 以元素的自然顺序来排序，也可以通过构造方法使用 Comparator 指定一个顺序。
 
 ![1487299667 1](https://cloud.githubusercontent.com/assets/22606175/23050629/88dee25c-f4fe-11e6-8a3a-345d144b0fd6.jpg)
+
+## 图
+图是一种按照键值存储元素的容器。图中不能有重复的键值，每个键值对应一个值。一个键值与它的对应值构成一个条目。
+
+java.util.Map 接口提供了查询、更新和获取集合的值或键值的方法。
+
+![1487301232 1](https://cloud.githubusercontent.com/assets/22606175/23051214/39d9cd8a-f502-11e6-9adf-5bec2a1185d6.jpg)
+
+- 散列图 HashMap ：条目没有顺序。
+- 链式散裂图 LinkedHashMap：条目可按照某种顺序来获取，既可以是插入顺序也可以是最后一次访问的顺序。
+- 树形图 TreeMap ：条目按照 Comparable 或者指定比较器的顺序进行排序。
+
+![1487302061 1](https://cloud.githubusercontent.com/assets/22606175/23051461/1f328c9a-f504-11e6-90fb-b1599f8fef12.jpg)
 
 ## 备注
 - Java 集合框架中的所有实例类都实现了 Cloneable 和 Serializable 接口，因此它们的实例都是可复制和可序列化的。
