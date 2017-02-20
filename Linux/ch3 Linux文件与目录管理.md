@@ -186,6 +186,6 @@ u=rwx,g=rx,o=rx  #以符号形式显示
 # -name filename：查找文件名为 filename 的文件
 # -size [+-]SIZE：查找比 SIZE 还要大(+)或小(-)的文件，如“-size +50k”
 # -type TYPE：查找文件类型为 TYPE 的文件，包括：一般文件(f)、目录(d)、链接文件(l)
-# -perm -mode：查找文件权限刚好等于 mode 的文件                
+# -perm mode：查找文件权限刚好等于 mode 的文件                
 ```
 
