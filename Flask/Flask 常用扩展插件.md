@@ -24,6 +24,7 @@ def create_app(config_name):
 
 ### 模型声明
 ```
+# app/models.py
 from . import db
 
 class User(db.Model):
@@ -71,6 +72,8 @@ Flask-Login 为 Flask 提供了会话管理。它处理日常的登入、登出�
 ### 初始化应用
 Flask-Login 最重要的部分就是登录管理器类 LoginManager ，实例化后对应用进行初始化。
 ```
+# app/init.py
+
 from flask_login import LoginManager
 
 login_manager = LoginManager()
