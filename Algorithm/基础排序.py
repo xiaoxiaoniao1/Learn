@@ -8,16 +8,13 @@
 '''
 def insert_sort(arr):
 
-	for i in range(len(arr)-1):  # i为已排序部分的最大index
-								 # 思考此处i的取值范围为何是len(arr)-1,而非是len(arr)-2
+	for i in range(len(arr)-1):      # i为已排序部分的最大index
 		j = i + 1                # j为待排序部分的最小index
-
 		#把该轮迭代中的新数插入已排序部分
 		while j > 0 and arr[j] <= arr[j-1]:
 			arr[j],arr[j-1] = arr[j-1],arr[j]
 			j -= 1
 		print l                  # 打印出每次迭代情况
-
 
 '''
 选择排序：
