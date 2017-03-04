@@ -1,0 +1,79 @@
+# Linux服务器部署
+## 初始化服务器
+首先需安装 Linux 操作系统并对其进行初始化配置。具体步骤请参见该文章：[配置虚拟云主机(CentOS 7)](https://github.com/Zouzhp3/Learn/blob/master/Cloud/%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E4%BA%91%E4%B8%BB%E6%9C%BA%28CentOS%29.md)
+ 
+## 安装MySQL
+在 CentOS 7和 CentOS 7.1系统中，默认安装的 mysql 是它的分支 mariadb ，因此需要从 mysql 的官网中下载。
+
+1. 下载 Yum Repo：
+从 [mysql官方下载地址](http://dev.mysql.com/downloads/repo/yum/) 获取 Yum Repo，并使用`yum install`命令进行安装该 Repo：`# yum -y install mysql57-community-release-el7-7.noarch.rpm`。完成后可以用`# yum list | grep mysql`来查看可安装的 mysql 包。
+2. 安装 MySQL 数据库的服务器版本：
+`# yum install mysql-community-server`
+3. 启动服务：
+`# service mysqld start`，并可用`# service mysqld status`查看服务状态。
+4. 获取初始密码：
+使用YUM安装并启动MySQL服务后，MySQL进程会自动在进程日志中打印 root 用户的初始密码。使用`grep "password" /var/log/mysqld.log`可查看日志中的MySQL root 密码。
+5. 修改root用户密码：
+使用`# mysql -uroot -p`并输入密码后进入 mysql 终端，再使用`mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new password';`命令修改 mysql 的密码。
+
+
+注意：如果装的 mysql 版本是5.7，则可能出现修改密码时报错`ERROR 1819 (HY000): Your password does not satisfy the current policy requirements`，这是因为新密码安全性较低。可使用`mysql> set global validate_password_policy=0;`降低密码安全等级后解决。
+
+### 参考文章
+[CentOS 7.2使用yum安装MYSQL 5.7.10](https://typecodes.com/linux/yuminstallmysql5710.html)
+
+[阿里云CentOS 7.1使用yum安装MySql 5.6.24](https://typecodes.com/web/centos7yuminstallmysql5.html)
+
+[修改MySQL 5.7.9版本的root密码方法以及一些新变化整理](http://bbs.bestsdk.com/detail/762.html) 
+
+## 设置远程访问 MySQL 
+linux 上的 mysql 数据库都是默认仅允许本地访问。设置 mysql 为远程访问，可以供开发者在本地使用数据库可视化工具远程连接而不用通过 ssh。
+
+在shell中，$mysql -r -u root -p 输入密码后进入 mysql 数据库。
+
+```
+mysql>use mysql;
+mysql>update user set host = '%' where user = 'root';    //这个命令执行错误时可略过
+mysql>flush privileges;
+mysql>select host, user from user; //检查‘%’ 是否插入到数据库中
+```
+
+找到文件/etc/mysql/my.cnf 修改 bind-address = 0.0.0.0 之后，重启 mysql 进程：`$service mysqld restart`。
+
+## 安装 virtualenv
+首先需安装 python-pip ，若提示没有包可安装，则使用命令`# yum -y install epel-release`安装扩展仓库后再使用 yum 进行安装。使用 pip 安装 virtualenv：`# pip install virtualenv`。
+
+使用virtualenv命令创建python虚拟环境：`# virtualenv [虚拟环境名称]`，之后在本地会生成一个与虚拟环境同名的文件夹。默认情况下虚拟环境不会依赖系统环境的global site-packages，如果想依赖系统环境的第三方软件包，也可以使用参数--system-site-packages。
+
+进入虚拟环境目录，启动虚拟环境，如下：
+```
+[root@localhost ~]# cd env1/
+[root@localhost env1]# source bin/activate
+(env1)[root@localhost env1]# python -V
+Python 2.7.8
+```
+
+部署服务时，可直接把开发者 windows 本地的虚拟环境下的 /Lib/site-packages 复制到 Linux 系统里的虚拟环境中，有些出于 python 版本不同导致的兼容问题可通过重新下载库来解决。
+
+
+### 参考文章
+[使用 virtualenv 搭建独立的 Python 环境](http://qicheng0211.blog.51cto.com/3958621/1561685)
+
+## 开放端口
+如果系统的防火墙开启，则需要设置防火墙开放端口。若没有启动防火墙服务，则默认开放所有端口。
+
+当使用脚本启动 flask 服务时可以指定 Host 和 端口：`# python manage.py runserver -h 0.0.0.0 -p 80`
+
+## 使用 supervisor 维护服务进程
+
+supervisor 是用 Python 开发的一套通用的 Linux 进程管理程序，能将一个普通的命令行进程变为后台 daemon，并监控进程状态，使其异常退出时能自动重启。
+
+首先使用`# yum install supervisor`命令安装 supervisor 。查看配置文件`/etc/supervisord.conf`，检查项 [include] 里的应用配置文件应放置在哪个目录，然后在指定目录下新建应用配置文件：
+```
+[program:app]  # app 为具体用户名
+command=/usr/bin/gunicorn -w 1 wsgiapp:application # 启动命令，与手动启动命令一样
+directory=/srv/www                                 # 程序的启动目录
+user=www-data                                      # 启动命令所使用的用户身份
+```
+
+最后启动 supervisor 即可：`supervisord -c /etc/supervisord.conf`

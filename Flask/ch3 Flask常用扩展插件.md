@@ -28,7 +28,7 @@ def create_app(config_name):
 from . import db
 
 class User(db.Model):
-	__tablename__ = 'users'   # 将创建的数据库的实际表名
+    __tablename__ = 'users'   # 将创建的数据库的实际表名
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     email = db.Column(db.String(120), unique=True)
@@ -65,6 +65,18 @@ if __name__ == '__main__':
 - 初始化迁移库：`# python manage.py db init`
 - 创建迁移脚本：`# python manage.py db migrate`
 - 更新数据库：`# python manage.py db upgrade`
+
+## MySQL-python 
+MySQL-python 是 python 环境与 mysql 数据库的底层交互接口。作为一个必需库，在安装时经常会遇到安装失败的情况。因此一般是在 windows 开发环境下使用 exe 进行安装后再把库文件复制到已部署项目的虚拟环境中。
+
+在 centos 系统中使用 pip 安装 MySQL-python 时遇到的一些问题的解决方法：
+
+1. 执行`pip install mysql-python`时，报错 `EnvironmentError: mysql_config not found` ，解决方法为：`yum install mysql-devel`
+2. 再次执行`pip install mysql-python`安装时，仍然报错`error: command 'gcc' failed with exit status 1`， 解决方法：`yum install gcc python-devel`
+
+### 参考文章
+[centos下pip安装mysql_python](http://www.cnblogs.com/yangxia-test/p/4691947.html)
+
 
 ## Flask-Login
 Flask-Login 为 Flask 提供了会话管理。它处理日常的登入、登出并长期保留用户会话。
@@ -173,4 +185,59 @@ extensions=jinja2.ext.autoescape,jinja2.ext.with_
 ### 修改翻译
 有时我们需要对程序和模板做修改，翻译也要随之更新。更新后需要用前面的命令重新生成 messages.pot 文件，然后使用命令`# pybabel update -i messages.pot -d translations`将更新的内容 merge 到原来的翻译中，最后再到对应 locale 的文件夹下更新翻译并 compile 即可。
 
+若只是修改翻译文本而未更改程序和模板，则只需修改 messages.po 文件里的文本后重新编译即可。
+
 ## Flask-Mail
+Flask-Mail 用于自动发送邮件。
+
+### 初始化应用
+```
+# app/init.py
+from flask_mail import Mail
+
+mail = Mail()
+mail.init_app(app)
+```
+
+### 参数配置
+可参考 [Flask-Mail 文档](http://www.pythondoc.com/flask-mail/index.html) 进行如下内置参数配置：
+```
+# config.py
+
+# If use QQ email, please see http://service.mail.qq.com/cgi-bin/help?id=28 firstly.
+MAIL_SERVER = 'smtp.sina.com'
+MAIL_PORT = 465
+MAIL_USE_SSL = True
+MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'milanlanlanlan@sina.com'
+MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or '1970025901a'
+```
+
+除了设置参数以外，还应当确保邮件服务器可提供服务。
+
+### 发送邮件
+
+为了能够发送邮件，首先需要创建一个 Message 实例:
+
+```
+from flask_mail import Message
+@app.route("/")
+def index():
+    msg = Message("Hello",     # 此处构造函数的首个参数的值"Hello"是邮件标题
+                  sender="from@example.com",
+                  recipients=["to@example.com"]) 
+```
+
+可设置一个或者多个收件人:
+```
+msg.recipients = ["you@example.com"]
+msg.add_recipient("somebodyelse@example.com")
+```
+若设置了 MAIL_DEFAULT_SENDER，就不必再次填写发件人，默认情况下将会使用配置项的发件人。
+
+邮件内容可以直接包含 body 或者包含 HTML:
+```
+msg.body = "testing"
+msg.html = "<b>testing</b>"
+```
+
+最后，发送邮件的时候请使用 Flask 应用设置的 Mail 实例:`mail.send(msg)`
