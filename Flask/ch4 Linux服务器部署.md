@@ -70,10 +70,10 @@ supervisor 是用 Python 开发的一套通用的 Linux 进程管理程序，能
 
 首先使用`# yum install supervisor`命令安装 supervisor 。查看配置文件`/etc/supervisord.conf`，检查项 [include] 里的应用配置文件应放置在哪个目录，然后在指定目录下新建应用配置文件：
 ```
-[program:app]  # app 为具体用户名
-command=/usr/bin/gunicorn -w 1 wsgiapp:application # 启动命令，与手动启动命令一样
-directory=/srv/www                                 # 程序的启动目录
-user=www-data                                      # 启动命令所使用的用户身份
+[program:app]                                         # app 为具体用户名
+command=python manage.py runserver -h 0.0.0.0 -p 5000 # 启动命令，与手动启动命令一样
+directory=/home/netlab301/lancs                       # 程序的启动目录
+user=root                                             # 启动命令所使用的用户身份
 ```
 
 最后启动 supervisor 即可：`supervisord -c /etc/supervisord.conf`
