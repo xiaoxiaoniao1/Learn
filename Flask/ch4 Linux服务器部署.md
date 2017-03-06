@@ -77,3 +77,14 @@ user=root                                             # 启动命令所使用的
 ```
 
 最后启动 supervisor 即可：`supervisord -c /etc/supervisord.conf`
+
+常用命令：
+```
+ps -aux | grep python  # 查看进程
+ps -aux | grep 5000    # 查看占用某端口的进程
+
+supervisorctl status         # 监控状态
+supervisorctl stop app       # 停止 app
+supervisorctl start app      # 启动 app
+supervisorctl restart app    # 重启 app
+```
