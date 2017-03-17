@@ -241,3 +241,18 @@ msg.html = "<b>testing</b>"
 ```
 
 最后，发送邮件的时候请使用 Flask 应用设置的 Mail 实例:`mail.send(msg)`
+
+## 自定义模板过滤器
+
+为了使视图层和控制层解耦，往往使用自定义的模板过滤器，而不是在控制层中增加逻辑。
+
+``` 
+# app/util/init.py
+from flask import Blueprint
+filter_blueprint = Blueprint('filters', __name__)
+
+# Register all the filter.
+# 往往不是把所有过滤器写入同一个文件中，而是分多个文件，然后在本文件中用 import 引用。
+@filter_blueprint.app_template_filter('reversel')
+def reverse_filter(s):
+    return s[::-1]

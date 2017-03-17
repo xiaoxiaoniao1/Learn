@@ -8,11 +8,13 @@ Linux 操作系统的文件数据包括文件内容和文件属性，其中权�
 
 ### EXT2文件系统的组成部分
 
+EXT2 文件系统在格式化时被区分为多个块组（Block Group），每个块组有独立的 inode/block/superblock 系统。
+
 ![EXT2文件系统的组成部分](http://cn.linux.vbird.org/linux_basic/0230filesystem_files/ext2_filesystem.jpg)
 
 - date block（数据块）
 	- 用于放置文件内容，若文件过大则会占用多个block
-- inodetable （inode 表）
+- inode table （inode 表）
 	- 记录文件属性以及文件的实际内容所放置的 block 编号
 	- 每个 inode 大小固定为128 Bytes，每个文件仅会占用一个 inode
 	- 系统读取文件时需先读文件的 inode，若其所记录的权限允许，才可实际读取 block 的内容
@@ -33,5 +35,52 @@ Linux 操作系统的文件数据包括文件内容和文件属性，其中权�
 
 ![目录block](http://cn.linux.vbird.org/linux_basic/0230filesystem_files/dir_block.jpg)
 
-当读取目录树时，系统读取挂载点的信息 从而得到根目录（广义上的）的 inode 内容，并根据该 inode 读取根目录内的文件数据，逐层向下读直到读取正确的文件名。
+当读取目录树时，系统读取挂载点的信息从而得到根目录（广义上的）的 inode 内容，并根据该 inode 读取根目录内的文件数据，逐层向下读直到读取正确的文件名。
+
+关于挂载：挂载是文件系统和目录树的结合；挂载点一定是目录，该目录为进入该文件系统的入口。
+
+
+## 2. 文件系统的简单操作
+
+### 磁盘与目录的容量：df、du
+df 用于列出文件系统整体磁盘使用量
+```
+[root@www ~]# df [-ahikHTm] 目录或文件名
+# -h：以GB、MB、KB等格式自行显示
+# -i：不用硬盘容量，而以 inode 的数量来显示
+```
+du用于评估文件系统的磁盘使用量
+```
+[root@www ~]# du [-ahskm] 目录或文件名
+# -h：以易读方式显示
+# -s：只列出总量
+```
+
+### 连接文件
+
+#### 硬连接或实际连接（hard link）
+由于每个文件只会占用一个 inode，文件内容由 inode 的所指向的 block 来指定，且若要读取文件，必须经过目录记录的文件名来指向正确的 inode 。因此**文件名只和目录有关，而文件内容只和 inode 有关**。
+
+此种情况下，则可能有多个文件名对应到同一个 inode 。即：hard link 只是在某个目录下新建一条文件名连接到已有的某 inode 的关联记录而已。
+
+![硬连接的文件读取](http://cn.linux.vbird.org/linux_basic/0230filesystem_files/hard_link1.gif)
+
+上图示意：可通过1或2的目录 inode 指定的 block 找到两个不同的文件名，而不管通过哪个文件名均可以指向 real 这个 inode 来读取最终数据。
+
+hard link 的限制：
+1. 不能跨文件系统
+2. 不能硬连接到目录（因为硬连接到目录时，连接数据需要连同被连接目录下的所有数据都建立连接，会造成大的复杂度）*#这里不太懂*
+
+#### 符号连接（symbolic link）
+符号连接即是创建一个**独立**（即拥有和源文件不一样的 inode）文件，该文件会让数据的读取指向其连接的那个文件的文件名，类似于“快捷方式”。
+
+![符号连接的文件读取](http://cn.linux.vbird.org/linux_basic/0230filesystem_files/symbolic_link1.gif)
+
+上图示意：由1号 inode读取到连接文件的内容仅有文件名，根据文件名连接到正确的目录去取得目标文件的 inode，即可读取到正确数据。
+
+```
+[root@www ~]# ln [-sf] 源文件 目标文件
+# -s：如果不加任何参数，则是hard link，至于-s则是symbolic link
+# -f：目标文件存在时，删除目标文件再创建
+```
 

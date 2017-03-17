@@ -19,6 +19,8 @@
 
 注意：如果装的 mysql 版本是5.7，则可能出现修改密码时报错`ERROR 1819 (HY000): Your password does not satisfy the current policy requirements`，这是因为新密码安全性较低。可使用`mysql> set global validate_password_policy=0;`降低密码安全等级后解决。
 
+mariadb 是 mysql 的一个分支版本，与 mysql 不能同时安装，但是接口与 mysql 完全兼容。当数据库需要迁移到 mariadb 时，可能会出现`ImportError: libmysqlclient.so.18`的错误，解决方法为'pip install mysql-client'（这里很奇怪，如果是 mysql 数据库的话不用安装 mysql-client 也可以）。
+
 ### 参考文章
 [CentOS 7.2使用yum安装MYSQL 5.7.10](https://typecodes.com/linux/yuminstallmysql5710.html)
 
@@ -62,7 +64,7 @@ Python 2.7.8
 ## 开放端口
 如果系统的防火墙开启，则需要设置防火墙开放端口。若没有启动防火墙服务，则默认开放所有端口。
 
-当使用脚本启动 flask 服务时可以指定 Host 和 端口：`# python manage.py runserver -h 0.0.0.0 -p 80`
+当使用脚本启动 flask 服务时可以指定 Host 和 端口：`# python manage.py runserver -h 0.0.0.0 -p 80`（使用80端口时需要 root 权限）
 
 ## 使用 supervisor 维护服务进程
 
@@ -81,10 +83,14 @@ user=root                                             # 启动命令所使用的
 常用命令：
 ```
 ps -aux | grep python  # 查看进程
-ps -aux | grep 5000    # 查看占用某端口的进程
+ps -aux | grep 5000    # 查看占用某端口的进程
 
-supervisorctl status         # 监控状态
-supervisorctl stop app       # 停止 app
-supervisorctl start app      # 启动 app （往往需要先启动 virtualenv 虚拟环境）
-supervisorctl restart app    # 重启 app
+supervisorctl status         # 监控状态
+supervisorctl stop app       # 停止 app
+supervisorctl start app      # 启动 app （往往需要先启动 virtualenv 虚拟环境）
+supervisorctl restart app    # 重启 app
 ```
+
+由于 supervisor 往往需要与虚拟环境同时使用，因此 supervisor 脚本中的 python 命令可以用虚拟环境中的 python 命令替代（如：`/home/ehpcadmin/venv/bin/python manage.py runserver`）
+
+## 使用 Nginx 反向代理
