@@ -83,7 +83,8 @@ SELECT 语句用于从表中选取数据，结果存储在一个结果表中。S
 	FROM Orders, Customers   
 	WHERE Orders.CustomerID = Customers.CustomerID 
 
-> 一个 SQL 查询的执行顺序如下：
+ 一个 SQL 查询的执行顺序如下：
+ 
 1. 为 from 子句中列出的关系产生笛卡儿积
 2. 在步骤 1 的结果上应用 where 子句中指定的谓词
 3. 对于步骤 2 的结果中的每个元组，输出 select 字句中指定的属性（或表达式的结果）
