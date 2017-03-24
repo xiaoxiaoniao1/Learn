@@ -106,10 +106,13 @@ SELECT 语句用于从表中选取数据，结果存储在一个结果表中。S
 	from instructor natural join teaches;
 ```
 
-为了避免不必要的相等属性带来的危险，SQL 提供一种自然连接的构造形式`join ... using`，允许用户来指定需要哪些列相等。如：
+为了避免不必要的相等属性带来的危险，SQL 提供一种自然连接的构造形式`join ... using`或`join ... on`，允许用户来指定需要哪些列相等。如：
 ```SQL
 	select name, title
-	from teaches join course using (course_id);
+	from teaches join course using (course_id); /*可跟多个列*/
+	
+	select name,title
+	from teaches join course on teaches.course_id = course.course_id;
 ```
 
 ## 插入
@@ -153,7 +156,7 @@ SQL 语句提供 case 语句，可以利用它在一条语句中执行多种更�
 
 ## 删除
 
-DELETE 语句用于删除表中的记录。只能删除整个元组，而不能只删除某些属性上的值。
+DELETE 语句用于删除表中的记录。**只能删除整个元组，而不能只删除某些属性上的值。**
 
 	DELETE FROM r
 	WHERE p;
@@ -197,9 +200,9 @@ WHERE column_name operator value;
 
 * =：等于。
 * <>：不等于。（在 SQL 的一些版本中，该操作符可被写成 !=）
-* >：大于
+* \>：大于
 * <：小于
-* >=：大于等于
+* \>=：大于等于
 * <=：小于等于
 * BETWEEN：在某个范围内（和连词 and 一起使用）
 * LIKE：**搜索某种模式**
@@ -212,7 +215,7 @@ WHERE column_name operator value;
 
 为了使模式中包含特殊模式的字符（％，_），SQL 允许转义字符。在 like 比较运算中使用`escape 关键词`来定义转义字符。如下例子：
 
-* like 'ab\%cd%' escape '\': 匹配所有以 'ab%cd' 开头的字符串；
+* like 'ab\\%cd%' escape '\\': 匹配所有以 'ab%cd' 开头的字符串；
 * like '[8,6]_0%'：匹配第一位为8或6，第三位为0的字符串；
 
 所以要查找 student表中所有电话号码(列名：telephone)的第一位为8或6，第三位为0的电话号码，用下面语句即可：
