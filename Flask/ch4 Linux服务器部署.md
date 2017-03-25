@@ -21,6 +21,20 @@
 
 mariadb 是 mysql 的一个分支版本，与 mysql 不能同时安装，但是接口与 mysql 完全兼容。当数据库需要迁移到 mariadb 时，可能会出现`ImportError: libmysqlclient.so.18`的错误，解决方法为'pip install mysql-client'（这里很奇怪，如果是 mysql 数据库的话不用安装 mysql-client 也可以）。
 
+### 导出数据库（sql脚本）   
+
+`mysqldump -u 用户名 -p 数据库名 > 导出的文件名`
+
+例如：`mysqldump -u root -p db_name > test_db.sql`
+
+### 导入数据库（sql脚本）   
+
+使用`mysql -u root -p`命令进入 MySQL 后：
+```
+mysql> use test;
+mysql> source c:/test.sql
+```
+
 ### 参考文章
 [CentOS 7.2使用yum安装MYSQL 5.7.10](https://typecodes.com/linux/yuminstallmysql5710.html)
 
