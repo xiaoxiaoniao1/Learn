@@ -221,24 +221,8 @@ ssthresh（slow start threshold）是一个上限，当cwnd >= ssthresh时，就
 * TCP Reno([RFC5681](http://tools.ietf.org/html/rfc5681), [RFC682](http://tools.ietf.org/html/rfc6582))的实现是：
     * cwnd = cwnd /2
     * ssthresh = cwnd
-    * 进入快速恢复算法——Fast Recovery
-
-### 快速恢复算法(Fast Recovery)
-
-快速恢复算法是认为，还有3个Duplicated Acks说明网络也不那么糟糕，所以没有必要像RTO超时那么强烈。注意，正如前面所说，进入Fast Recovery之前，cwnd 和 sshthresh已被更新：
-
-cwnd = cwnd /2  
-ssthresh = cwnd  
-  
-然后，真正的Fast Recovery算法如下：
-
-* cwnd = ssthresh  + 3 * MSS （3的意思是确认有3个数据包被收到了）；
-* 重传Duplicated ACKs指定的数据包；
-* 如果再收到 duplicated Acks，那么cwnd = cwnd +1；
-* 如果收到了新的Ack，那么，cwnd = sshthresh ，然后就进入了拥塞避免的算法了。
-
-上面这个算法也有问题，那就是——它依赖于3个重复的Acks。注意，3个重复的Acks并不代表只丢了一个数据包，很有可能是丢了好多包。但这个算法只会重传一个，而剩下的那些包只能等到RTO超时，于是，进入了恶梦模式——超时一个窗口就减半一下，多个超时会超成TCP的传输速度呈级数下降，而且也不会触发Fast Recovery算法了。1995年，提出了 TCP New Reno 算法，避免这个问题。
-
+    * 按照拥塞避免算法继续线性增长
+    
 ## 更多阅读
 
 [图解TCP-IP协议](http://www.cricode.com/3568.html)  
