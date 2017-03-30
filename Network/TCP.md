@@ -221,7 +221,7 @@ ssthresh（slow start threshold）是一个上限，当cwnd >= ssthresh时，就
 * TCP Reno([RFC5681](http://tools.ietf.org/html/rfc5681), [RFC682](http://tools.ietf.org/html/rfc6582))的实现是：
     * cwnd = cwnd /2
     * ssthresh = cwnd
-    * 按照拥塞避免算法继续线性增长
+    * 按照拥塞避免算法继续线性增长
     
 ## 更多阅读
 
