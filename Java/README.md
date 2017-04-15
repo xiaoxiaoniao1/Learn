@@ -95,6 +95,17 @@ JAVA 有八种基础的数据类型：
 - 免检异常：RuntimeException、Error 以及其子类都是免检异常，通常反映程序中不可恢复的逻辑错误
 - 必检异常：除免检异常外的所有异常称为“必检异常”，编译器强制要求程序员处理的异常。
 
+常见的几种异常如下：
+ 
+- NullPointerException - 空指针引用异常
+- ClassCastException - 类型强制转换异常。
+- IllegalArgumentException - 传递非法参数异常。
+- ArithmeticException - 算术运算异常
+- ArrayStoreException - 向数组中存放与声明类型不兼容对象异常
+- IndexOutOfBoundsException - 下标越界异常
+- NegativeArraySizeException - 创建一个大小为负数的数组错误异常
+- UnsupportedOperationException - 不支持的操作异常
+
 # 文本IO与二进制IO
 
 IO类分为文本IO与二进制IO，前者将数据解释成字符序列，后者将数据解释成原始的二进制数值。
