@@ -21,7 +21,10 @@
 ## 更改yum源
 Linux的默认官方yum源在国内访问不佳、速度慢，因此把yum源更改为国内比较好的 [阿里云开源镜像站](http://mirrors.aliyun.com/help/centos) 或者 [清华大学开源镜像站](https://mirrors.tuna.tsinghua.edu.cn/help/centos/) 能获得极大的下载速度提升。
 
-在修改完`/etc/yum.repos.d/`下yum源的CentOS-Base.repo后，依次执行`yum clean all`与`yum makecache`来删除与更新yum源的缓存。若在执行命令的过程中发现yum源总是切换到速度满的其他yum源进行下载，则可以在目录下修改该劣质yum源的repo文件，把其enabled值设置为0即可。
+在修改完`/etc/yum.repos.d/`下yum源的CentOS-Base.repo后，依次执行`yum clean all`与`yum makecache`来删除与更新yum源的缓存。若在执行命令的过程中发现yum源总是切换到速度满的其他yum源进行下载，则可以在目录下修改该劣质yum源的repo文件，把其enabled值设置为 0 即可。
+
+> 使用`yum install epel-release`命令可安装 epel 源，该源提供了很多扩展性的功能软件。
+
 
 ## 关闭防火墙与SELinux
 使用某些网络应用时可能需要关闭防火墙与SELinux服务。
