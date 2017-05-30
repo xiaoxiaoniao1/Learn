@@ -1,36 +1,42 @@
-## 云计算的定义
-美国国家标准与技术研究院（NIST）定义：
+# 配置虚拟云主机(CentOS 7)
+以下所有操作均在 root 权限下完成。
+## 安装操作系统
+以 vSphere Client 为例，当一个新的云虚拟机（非模板复制）选择完硬件配置并创建完成后，需要在该虚拟机上安装操作系统：
 
-> Cloud computing is a model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+ 1. 下载操作系统的 ISO 文件（如 CentOS-7-x86_64-DVD-1511.iso ）到本地。
+ 2. 通过本地的 VMware Workstation ，设置虚拟机的光驱为“启动时连接”与“已连接”，并使用ISO镜像文件为本地已下载的操作系统ISO文件。
+ 3. 重新启动虚拟机，进入操作系统安装界面，等待一段时间后安装完成。
 
-云计算好比是从古老的单台发电机模式转向了电厂集中供电的模式。它意味着计算能力也可以作为一种商品进行流通，就像煤气、水电一样，取用方便，费用低廉。最大的不同在于，它是通过互联网进行传输的。
+可通过`passwd`命令来修改root密码；编辑/etc/hostname来修改主机名（重启后生效）。
+## 配置IP地址
+安装完操作系统后，由于 CentOS7 默认不开启网络，故需要修改一下配置才能使虚拟机自动获得由物理机所分配的IP地址。
 
-## 云计算的特点
-被普遍接受的云计算的特点如下：
-### 超大规模
-“云”具有相当的规模，Google云计算已经拥有100多万台服务器， Amazon、IBM、微软、Yahoo等的“云”均拥有几十万台服务器。企业私有云一般拥有数百上千台服务器。
-### 虚拟化
-云计算支持用户在任意位置、使用各种终端获取应用服务。所请求的资源来自“云”，而不是固定的有形的实体。应用在“云”中某处运行，但实际上用户无需了解、也不用担心应用运行的具体位置。
-### 高可靠性
-“云”使用了数据多副本容错、计算节点同构可互换等措施来保障服务的高可靠性，使用云计算比使用本地计算机可靠。
-### 通用性
-云计算不针对特定的应用，在“云”的支撑下可以构造出千变万化的应用，同一个“云”可以同时支撑不同的应用运行。
-### 高可扩展性
-“云”的规模可以动态伸缩，满足应用和用户规模增长的需要。
-### 按需服务
-“云”是一个庞大的资源池，你按需购买；云可以像自来水，电，煤气那样计费。
-### 极其廉价
-由于“云”的特殊容错措施可以采用极其廉价的节点来构成云，“云”的自动化集中式管理使大量企业无需负担日益高昂的数据中心管理成本，“云”的通用性使资源的利用率较之传统系统大幅提升，因此用户可以充分享受“云”的低成本优势。
-### 潜在的危险性
-云计算服务除了提供计算服务外，还必然提供了存储服务。但是云计算服务当前垄断在私人机构（企业）手中，而他们仅仅能够提供商业信用。对于政府机构、商业机构（特别像银行这样持有敏感数据的商业机构）对于选择云计算服务应保持足够的警惕。
+1. 使用命令`cd /etc/sysconfig/network-scripts/` ，找到以太网卡配置文件 ifcfg-e\*\* 文件，文件名后面的数字一般是随机生成的。把该文件里onboot的值修改为yes。此外，如果遇到网络服务重启失败，可以查看该文件里的 Mac 地址与`ipconfig`命令所查询到的 Mac 地址是否相同。
+2. 若`ifconfig`命令无法使用，则需使用`yum install net-tools.x86_64` 命令来安装该网络工具包。安装完成后使用该命令即可查看虚拟机所获得的IP。
 
-## 云计算的三层架构
-![云计算的三层架构](https://upload.wikimedia.org/wikipedia/commons/3/3c/Cloud_computing_layers.png)
-### IaaS（基础设施即服务）
-用户使用“基础计算资源”，如处理能力、存储空间、网络组件或中间件。用户能掌控操作系统、存储空间、已部署的应用程序及网络组件（如防火墙、负载平衡器等），但并不掌控云基础架构。IaaS包括的部分如：物理机的管理、虚拟机的管理和存储的管理。
+~~若发现无法ping通一些域名，可打开`vi /etc/resolv.conf`，增加条目 nameserver 8.8.8.8 或者 nameserver 114.114.114.114（其他可用的DNS服务器亦可）。~~ 若无法ping通域名，在 ifcfg-e\*\* 文件中设置 DNS1 = 8.8.8.8 或 114.114.114.114。
 
-一般而言，提到云计算系统的时候，就是指IaaS系统。IaaS是整个云计算系统最核心也是最难以实现的部分。
-### PaaS（平台即服务）
-用户使用主机操作应用程序。用户掌控运作应用程序的环境（也拥有主机部分掌控权），但并不掌控操作系统、硬件或运作的网络基础架构。平台通常是应用程序基础架构。例如：Google App Engine。PaaS包括的部分如：在虚拟机中搭建开发环境如MySQL、Apache等。
-### SaaS（软件即服务）
-用户使用应用程序，但并不掌控操作系统、硬件或运作的网络基础架构。是一种服务观念的基础，软件服务供应商以租赁的概念提供客户服务，而非购买，比较常见的模式是提供一组账号密码。SaaS包括的部分如：搭建一个购物网站、微博网站等。
+若需使同一网络上的各个虚机能互相解析彼此的主机名为IP地址，需要在每个虚机的 /etc/hosts 文件里写入每一台虚机的IP地址与主机名。如`172.18.216.211 mon`。具体参考 [/etc/hosts详解](http://os.51cto.com/art/200803/68170.htm) 。
+
+## 更改yum源
+Linux的默认官方yum源在国内访问不佳、速度慢，因此把yum源更改为国内比较好的 [阿里云开源镜像站](http://mirrors.aliyun.com/help/centos) 或者 [清华大学开源镜像站](https://mirrors.tuna.tsinghua.edu.cn/help/centos/) 能获得极大的下载速度提升。
+
+在修改完`/etc/yum.repos.d/`下yum源的CentOS-Base.repo后，依次执行`yum clean all`与`yum makecache`来删除与更新yum源的缓存。若在执行命令的过程中发现yum源总是切换到速度满的其他yum源进行下载，则可以在目录下修改该劣质yum源的repo文件，把其enabled值设置为 0 即可。
+
+> 使用`yum install epel-release`命令可安装 epel 源，该源提供了很多扩展性的功能软件。
+
+
+## 关闭防火墙与SELinux
+使用某些网络应用时可能需要关闭防火墙与SELinux服务。
+
+关闭 SELinux：编辑 /etc/selinux/config ，设置SELINUX = disabled； 执行`# setenforce 0`可即时生效。可使用`# getenforce`命令查看SELinux状态。
+
+关闭防火墙服务：
+
+ ```
+ # systemctl stop firewalld
+ # systemctl disable firewalld
+ ```
+ 
+## 更改语言
+修改配置文件`/etc/locale.conf`。若改为英文则写入：`LANG="en_US.UTF-8"`，改为中文则写入：`LANG="zh_CN.UTF-8"`。
