@@ -2,6 +2,10 @@
 ## 初始化服务器
 首先需安装 Linux 操作系统并对其进行初始化配置。具体步骤请参见该文章：[配置虚拟云主机(CentOS 7)](https://github.com/Zouzhp3/Learn/blob/master/Cloud/%E9%85%8D%E7%BD%AE%E8%99%9A%E6%8B%9F%E4%BA%91%E4%B8%BB%E6%9C%BA%28CentOS%29.md)
  
+此外，最好不要用 root 账户直接进行操作，应当设置一个拥有 sudo 权限的新用户，使用该用户进行服务器的操作。
+
+[教程：添加一个新用户并授权](http://www.cnblogs.com/woshimrf/p/5906084.html)
+ 
 ## 安装MySQL
 在 CentOS 7和 CentOS 7.1系统中，默认安装的 mysql 是它的分支 mariadb ，因此需要从 mysql 的官网中下载。
 
