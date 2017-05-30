@@ -1,4 +1,4 @@
-# LVS + keepalived 部署方案（CentOS）
+# LVS + keepalived 双机高可用部署方案（CentOS）
 
 ### 前期准备
 准备四台虚机，分别记作 LVS-master、LVS-slave、web-node1、web-node2。前两者作为 LVS 负载均衡调度器，后两者是提供应用服务的 web 服务器。
@@ -9,7 +9,7 @@
 
 
 ### web 节点配置
-在两台 web 机上开启 httpd 服务，并编辑 Real Server （真实服务器，简称 RS）的 绑定 VIP （虚拟 IP）脚本`realserver.sh`如下：
+在两台 web 机上开启 httpd 服务，并编辑 Real Server （真实服务器，简称 RS）用于绑定 VIP （虚拟 IP）脚本`realserver.sh`如下：
 
 ```
 #!/bin/bash  
@@ -82,10 +82,11 @@ global_defs {                               # global_defs 全局配置标识
      sysadmin@firewall.loc                  # yum -y install mailx sendmail
    }                                        --------------------------------------
    
-   notification_email_from Alexandre.Cassen@firewall.loc  # 设置邮件发送地址
-   smtp_server 192.168.200.1                              # 设置邮件的smtp server地址
-   smtp_connect_timeout 30                                # 设置连接smtp sever超时时间
-   router_id LVS_DEVEL                                    # 表示运行keepalived服务器标识，发邮件时显示在邮件主题中的信息
+   notification_email_from 233@qq.com  # 设置邮件发送地址
+   smtp_server 192.168.200.1           # 设置邮件的smtp server地址
+   smtp_connect_timeout 30             # 设置连接smtp sever超时时间
+   router_id LVS_DEVEL                 # 表示运行keepalived服务器标识
+									   # 发邮件时会显示在邮件主题中
 }
 
 ######################
@@ -94,7 +95,8 @@ global_defs {                               # global_defs 全局配置标识
 
 vrrp_instance VI_1 {         # VRRPD 配置标识 VI_1是实例名称
 
-    state MASTER             # 指定Keepalvied角色 MASTER表示此主机为主服务器 BACKUP则是表示为备用服务器
+    state MASTER             # 指定Keepalvied角色。
+                             # MASTER表示此主机为主服务器，BACKUP则是表示为备用服务器
     interface eth0           # 指定HA监测网络的接口。检查是否与ifconfig命令查看的网卡名称一致。
     virtual_router_id 51     # 虚拟路由标识，标识为数字，同一个VRRP实例使用唯一的标识
                              # 即可表示在同一个vrrp_instance下 MASTER_ID = BACKUP_ID
