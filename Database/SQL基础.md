@@ -66,6 +66,7 @@ create table department
 
 - 为已有关系增加属性：`alter table r add A D;`，其中 r 是现有关系名，A 是待添加属性的名字，D 是待添加属性的域
 - 为已有关系去掉属性：`alter table r drop A;`
+- 为已有关系修改属性：`alter table r alter A D;`
 
 # SQL DML：增删查改
 
@@ -112,7 +113,7 @@ SELECT 语句用于从表中选取数据，结果存储在一个结果表中。S
 	from teaches join course using (course_id); /*可跟多个列*/
 	
 	select name,title
-	from teaches join course on teaches.course_id = course.course_id;
+	from teaches join course on teaches.course_id = course.course_id; /*可在 on 后接子句*/
 ```
 
 ## 插入
