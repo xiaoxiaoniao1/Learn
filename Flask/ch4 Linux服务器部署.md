@@ -111,4 +111,21 @@ supervisorctl restart app    # 重启 app
 
 由于 supervisor 往往需要与虚拟环境同时使用，因此 supervisor 脚本中的 python 命令可以用虚拟环境中的 python 命令替代（如：`/home/ehpcadmin/venv/bin/python manage.py runserver`）
 
-## 使用 Nginx 反向代理
+## 使用 gunicorn 作为 Web 服务器
+
+由于 Flask 自带的服务器（通过`runserver`命令启动）性能差且无法支持并发请求，因此需要使用 gunicorn 作为服务器（或其他 web 服务器）来提供更好的性能。
+
+```
+Gunicorn 'Green Unicorn' is a Python WSGI HTTP Server for UNIX. It's a pre-fork worker model. The Gunicorn server is broadly compatible with various web frameworks, simply implemented, light on server resources, and fairly speedy.
+```
+
+安装 gunicorn：` pip install gunicorn`
+
+启动 gunicorn 服务器：`gunicron -w4 -b0.0.0.0:8000 myapp:app`，其中 -w 表示开启多少个 worker，-b 表示 gunicorn 开放的访问地址。想要结束 gunicorn 只需执行`pkill gunicorn`。
+
+[Gunicorn 官方文档](http://docs.gunicorn.org/en/stable/run.html)
+
+### gevent
+gevent 是第三方库，可通过 greenlet 实现协程，其基本思想是：当一个 greenlet 遇到 IO 操作时，比如访问网络，就自动切换到其他的 greenlet，等到 IO 操作完成，再在适当的时候切换回来继续执行。由于 IO 操作非常耗时，经常使程序处于等待状态，有了 gevent 为我们自动切换协程，就保证总有 greenlet 在运行，而不是等待 IO。
+
+因此结合 gunicorn 启动服务的命令可设置为：`gunicorn manage:app -b 0.0.0.0:8080 -w 4 --worker-class gevent`（此命令可写入 supervisor 的应用配置文件中）
