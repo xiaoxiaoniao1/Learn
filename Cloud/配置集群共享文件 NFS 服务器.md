@@ -38,6 +38,7 @@ showmount 命令：
 - showmount -a [主机]：显示指定主机中 NFS 服务器的客户机信息
 
 exportfs 命令：
+
 - exportfs -rv：使 NFS 服务器重新读取 exports 文件中的设置
 - exportfs -auv：停止当前主机中 NFS 服务器的所有目录输出
 
