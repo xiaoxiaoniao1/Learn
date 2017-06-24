@@ -49,6 +49,9 @@ vrrp_instance VI_1 {        #主从实例1
 
 配置完成后，在两台虚机上都用`service keepalived start`命令启动 keepalive 服务。之后在 HA-master 上使用`ip addr show`命令可以看到当前节点已经绑定了虚拟 IP。且可以通过关闭 HA-master 上的 keepalive 服务来查看虚拟 IP 是否浮动到了 HA-slave。
 
+> 但目前 haproxy 服务停止时，keepalived 服务并不会停止，所以还需要写一个脚本，使得当 haproxy 服务停止时，keepalived 服务也会停止
+
+
 ### 前端配置 HAProxy
 
 在 HA-master 与 HA-slave 上安装 HAProxy：`yum install haproxy`，然后配置 HAProxy（路径`/etc/haproxy/haproxy.cfg`）。
