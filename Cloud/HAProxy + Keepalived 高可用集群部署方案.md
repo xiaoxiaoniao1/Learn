@@ -55,7 +55,7 @@ vrrp_instance VI_1 {        #主从实例1
 
 HAProxy 的配置文件分为五个部分：
 
-- global：全局配置参数，用来控制 Haproxy 启动前的一些进程及系统设置
+- global：全局配置的进程级参数，用来控制 Haproxy 启动前的一些进程及系统设置
 - defaults：配置默认参数，可以被 frontend，backend，listen 段继承使用
 - frontend：定义接收请求的前端虚拟节点，可根据用户所请求的不同域名、URL 等做不同的请求处理
 - backend：定义处理业务的后端服务器集群，以及设置后端的权重、队列、连接数等选项
@@ -69,7 +69,7 @@ global
     log         127.0.0.1 local2      # 定义日志输出设置
     chroot      /var/lib/haproxy      # chroot运行路径
     pidfile     /var/run/haproxy.pid  # haproxy进程PID文件
-    maxconn     5000                  # 默认最大连接数
+    maxconn     20000                  # 默认最大连接数
     daemon                            # 以后台形式运行harpoxy
 #---------------------------------------------------------------------
 # common defaults that all the 'listen' and 'backend' sections will
@@ -93,25 +93,20 @@ defaults
     timeout server          1m
     timeout http-keep-alive 10s           # 默认持久连接超时时间
     timeout check           10s           # 心跳检查超时时间
-    maxconn                 5000         # 最大并发连接数
+    maxconn                 5000          # 最大并发连接数
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends
 #---------------------------------------------------------------------
 frontend  proxy *:80    #前端代理
     default_backend             dynamic
 #---------------------------------------------------------------------
-# static backend for serving up images, stylesheets and such
-#---------------------------------------------------------------------
-# backend static    #后端静态服务器
-#     balance     roundrobin
-#     server      web1  172.16.7.201:80 inter 3000 rise 2 fall 3 check maxconn 5000
-#---------------------------------------------------------------------
 # round robin balancing between the various backends
 #---------------------------------------------------------------------
 backend dynamic    #后端动态服务器
     balance     roundrobin
-    server      web1  172.18.218.149:80 inter 3000 rise 2 fall 3 check maxconn 5000
-    server      web2  172.18.216.107:80 inter 3000 rise 2 fall 3 check maxconn 5000
+    cookie      SESSION_ID insert indirect nocache    #设置cookie保持
+    server      web1  172.18.218.149:80 inter 3000 rise 2 fall 3 check maxconn 5000 cookie A
+    server      web2  172.18.216.107:80 inter 3000 rise 2 fall 3 check maxconn 5000 cookie B
 listen statistics  #设置HAProxy 的自带管理系统
         mode http
         bind *:8080    #把stats页面绑定到8080端口
@@ -119,15 +114,8 @@ listen statistics  #设置HAProxy 的自带管理系统
         stats auth admin:admin    #认证的用户名和密码
         stats uri /admin?stats    #指定uri访问路径
         stats hide-version        #为了安全（版本bug），隐藏版本信息
-        stats refresh 5s        #页面5秒刷新一次
+        stats refresh 5s          #页面5秒刷新一次
 ```
-
-
-
-
-
-
-
 
 
 
@@ -137,3 +125,4 @@ listen statistics  #设置HAProxy 的自带管理系统
 [HAProxy用法详解 全网最详细中文文档](http://www.ttlsa.com/linux/haproxy-study-tutorial/)
 [haproxy配置详解](http://leejia.blog.51cto.com/4356849/1421882)
 [HAproxy指南之haproxy配置详解](http://blief.blog.51cto.com/6170059/1750952)
+
