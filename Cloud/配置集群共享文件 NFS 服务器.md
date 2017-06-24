@@ -42,5 +42,7 @@ exportfs 命令：
 - exportfs -rv：使 NFS 服务器重新读取 exports 文件中的设置
 - exportfs -auv：停止当前主机中 NFS 服务器的所有目录输出
 
+## 参考文档
 [Linux 系统中文件共享之 NFS](http://www.swanlinux.net/2013/02/12/linux_nfs/)
+
 [NFS 文件共享配置参数](https://www.cnyunwei.cc/archives/148)
