@@ -177,7 +177,8 @@ source /usr/local/bin/virtualenvwrapper.sh
 使用`pip install gevent`安装 gevent 时失败时，需要安装依赖包 python-dev ：`sudo apt-get install python-dev`
 
 ### supervisor启动后 web 服务启动失败
-在使用 supervisor 启动服务前先使用`gunicorn manage:app -b 0.0.0.0:80 -w 4 --worker-class gevent`命令进行测试，观察服务能否正常启动。若测试成功，则还要保证以下两点：
+在使用 supervisor 启动服务前先使用`gunicorn manage:app -b 0.0.0.0:80 -w 4 --worker-class gevent`命令进行测试，观察服务能否正常启动。若测试成功，则还要保证以下三点：
 
+- 工作目录是 ehpc 项目的主目录
 - supervisor 服务处于开启状态：`sudo service supervisor status`
 - 使用`supervisord -c /etc/supervisor/supervisor.conf`启动 supervisor 进程
