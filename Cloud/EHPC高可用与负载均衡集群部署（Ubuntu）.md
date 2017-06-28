@@ -27,6 +27,8 @@ Keepalived 是一款高可用软件，它的功能是基于 VRRP 协议、通过
 10.182.15.51    web1
 10.182.15.52    web2
 ```
+以及更新好 apt-get 库：`apt-get update`
+
 ## 三.数据库节点配置
 
 数据库节点为 nfs1，主要提供 NFS 与 MySQL 服务。
@@ -146,6 +148,9 @@ backend dynamic    #后端Web服务器
 最后记得要重启 web1 与 web2 的服务：`supervisorctl start ehpc`
 
 ## 遇到的问题汇总
+
+### ubuntu系统设置DNS失败
+在`/etc/resolvconf/resolv.conf.d/base`里添加 DNS 失败，则应当在`/etc/resolvconf/resolv.conf.d/head`中进行添加，之后使用`resolvconf -u`刷新即可。
 
 ### 启动 80 端口的 web 节点的服务时提示端口被占用
 ubuntu 系统自带 Apache2 服务占用了 80 端口且开机自动启动，用`sudo lsof -i:80`命令找出 80 端口的占用程序 kill 掉即可，此外还可使用`sudo update-rc.d apache2 disable`命令关闭 apache2 的自启动。
