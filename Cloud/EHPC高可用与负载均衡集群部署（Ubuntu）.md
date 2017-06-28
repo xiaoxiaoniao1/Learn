@@ -19,6 +19,8 @@ Keepalived 是一款高可用软件，它的功能是基于 VRRP 协议、通过
 准备四台虚机（Linux Ubuntu），分别作为前端代理（ ha1[10.182.15.46]）、服务节点（web1[10.182.15.51
 ]、web2[10.182.15.52]）、数据库节点（nfs1[10.182.15.50]）。所有节点均可访问外网，其中只有 ha1 拥有公网 IP。
 
+> 此外还拥有一台备份节点，用于对数据库节点 nfs1 的数据库以及文件目录进行实时主从备份。
+
 所有节点须设置好 hosts 互相解析：
 ```
 #vi /etc/hosts
@@ -137,7 +139,7 @@ backend dynamic    #后端Web服务器
 
 启动 HAProxy 服务：`service haproxy start`即可。
 
-## 六.如何进行项目文件更新
+## 如何进行项目文件更新
 更新之前先停掉 web1 与 web2 的服务：`supervisorctl stop ehpc`
 
 - 更新数据库：登录 nfs1，进入 mysql 命令行进行新的数据库 sql 文件导入即可
@@ -147,7 +149,10 @@ backend dynamic    #后端Web服务器
 
 最后记得要重启 web1 与 web2 的服务：`supervisorctl start ehpc`
 
-## 遇到的问题汇总
+## 架构中将来可能遇到的问题
+由于 nfs1 既作为集群中唯一的数据库服务节点以及唯一的文件共享目录挂载节点，同时还负责对外实时备份，因此很有可能成为集群中效率的瓶颈。今后的架构重构中，应当考虑把数据库服务从文件共享目录挂载节点分离开，减小 nfs1 的压力。
+
+## 部署问题汇总
 
 ### ubuntu系统设置DNS失败
 在`/etc/resolvconf/resolv.conf.d/base`里添加 DNS 失败，则应当在`/etc/resolvconf/resolv.conf.d/head`中进行添加，之后使用`resolvconf -u`刷新即可。
