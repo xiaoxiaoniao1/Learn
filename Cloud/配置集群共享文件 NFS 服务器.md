@@ -30,7 +30,7 @@ NFS 服务器启动 nfs 服务：`service nfs start`后， NFS 客户端即可�
 挂载完成，但是这只是临时挂载，客户端重启后 NFS 挂载就失效了，要设置永久挂载可以编辑文件：  
 ```
 vim /etc/fstab 
-{{NFS服务器地址}}:{{远程共享目录}} {{本地挂载目录}} nfs defaults,_netdev 0 0 
+{{NFS服务器地址}}:{{远程共享目录}} {{本地挂载目录}} nfs defaults 0 0 
 ```
 保存配置，执行mount -a 命令
 
