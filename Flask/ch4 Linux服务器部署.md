@@ -46,6 +46,9 @@ mysql> source c:/test.sql
 
 [修改MySQL 5.7.9版本的root密码方法以及一些新变化整理](http://bbs.bestsdk.com/detail/762.html) 
 
+### 在 CentOS 上安装 mysql-python
+在 CentOS 下用`pip install mysql-python`命令直接安装时会出现找不到`mysql_config`、`gcc`等错误，解决方案是安装mysql(或mariadb)的devel包(如mysql-devel或mariadb-devel)，以及安装python的devel包。
+
 ## 设置远程访问 MySQL 
 linux 上的 mysql 数据库都是默认仅允许本地访问。设置 mysql 为远程访问，可以供开发者在本地使用数据库可视化工具远程连接而不用通过 ssh。
 
