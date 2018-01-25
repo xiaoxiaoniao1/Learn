@@ -2,9 +2,9 @@
 
  [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) 是一个用于在本地上运行 kubernates 的工具插件。Minikube 可在本地机器上创建一个虚拟机（需要安装对应的虚拟机驱动，如 VirtualBox、KVM 等），从而运行一个单节点的 k8s 集群。
 
-[kubectl](https://kubernetes.io/docs/reference/generated/kubectl/kubectl/) 则是 k8s 的命令行管理工具，管理 k8s 集群需要通过该系列命令进行。
-
 ![minikube 原理说明图](https://yqfile.alicdn.com/c03a43e0731ca579d1844fb44269fd2fd257bfb3.jpeg)
+
+[kubectl](https://kubernetes.io/docs/reference/generated/kubectl/kubectl/) 则是 k8s 的命令行管理工具，管理 k8s 集群需要通过该系列命令进行。
 
 ## 1.  事前准备
 
@@ -76,5 +76,5 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExNjEzNzA5NTddfQ==
+eyJoaXN0b3J5IjpbLTg3MTU3ODEyNV19
 -->
