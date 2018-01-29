@@ -89,7 +89,7 @@ kubectl run kubernetes-bootcamp --image=docker.io/jocatalin/kubernetes-bootcamp:
 kubectl get deployments
 ```
 
-默认情况下，集群中的 pods 对外部网络是不可见的，但 kubectl 可以创建一个转发请求到集群端私有网络的代理：`kubectl proxy`。执行该命令后，当前终端会被阻塞，且不会有任何输出，执行 “ctrl + C” 可退出该命令。
+默认情况下，集群中的 pods 对外部网络是不可见的，但 kubectl 可以创建一个能够转发请求到集群端私有网络的代理：`kubectl proxy`。执行 `kubectl proxy` 后，当前终端会被阻塞，且不会有任何输出，执行 “ctrl + C” 可退出该命令。
 
 
 
@@ -104,5 +104,5 @@ kubectl get deployments
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTIzNTU5NTc5MF19
+eyJoaXN0b3J5IjpbLTE3Nzc1OTQ3ODRdfQ==
 -->
