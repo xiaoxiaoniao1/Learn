@@ -96,6 +96,8 @@ Starting to serve on 127.0.0.1:8001
 ```
 通过使用 `kubectl proxy` 所展示的地址，我们就可以直接访问 k8s API，例如 `curl http://127.0.0.1:8001/version` 就可获取当前 API Server 的版本。
 
+API Server 会自动根据 pod 的名字来为每个 pod 创建一个访问点（endpoint），该访问点也可以t
+
 
 
 
@@ -109,5 +111,5 @@ Starting to serve on 127.0.0.1:8001
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTUzNzY1Nzg5OV19
+eyJoaXN0b3J5IjpbMjY1ODIxMjcyXX0=
 -->
