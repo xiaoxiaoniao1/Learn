@@ -81,7 +81,7 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 
 ![enter image description here](https://d33wubrfki0l68.cloudfront.net/152c845f25df8e69dd24dd7b0836a289747e258a/4a1d2/docs/tutorials/kubernetes-basics/public/images/module_02_first_app.svg)
 
-`kubectl run`命令用于创建
+`kubectl run` 命令用于创建
 
 
 
@@ -95,5 +95,5 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwOTk1ODI5N119
+eyJoaXN0b3J5IjpbLTUzNjE2NTI5N119
 -->
