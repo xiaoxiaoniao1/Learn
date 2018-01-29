@@ -68,7 +68,7 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 ```
 
 ## 5. 集群的运行与测试
-执行 `minikube start` 启动本地 k8s 集群后，
+执行 `minikube start` 命令而启动本地 k8s 集群后，使用`kubectl version`可查看当前的 k8s 集群的客户端与服务端的版本
 
 
 ## 注意事项
@@ -80,5 +80,5 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI0NzE1MjE0MV19
+eyJoaXN0b3J5IjpbLTk2Njc3MTQ5NV19
 -->
