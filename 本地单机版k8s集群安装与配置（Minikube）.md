@@ -84,9 +84,9 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 `kubectl run` 命令用于创建一个新的 Deployment，此命令需要提供 Deployment 的命名以及 app 镜像的地址。
 ```
 # 若需要在特定端口运行app，则用 --port 指明运行端口
-kubectl run kubernetes-bootcamp --image=docker.io/jocatalin/kubernetes-bootcamp:v1 --port=8080
+$ kubectl run kubernetes-bootcamp --image=docker.io/jocatalin/kubernetes-bootcamp:v1 --port=8080
 # 创建完成后可以查询 Deployment
-kubectl get deployments
+$ kubectl get deployments
 ```
 
 默认情况下，集群中的 pods 对外部网络是不可见的，但 kubectl 可以创建一个能够转发请求到集群端私有网络的代理：`kubectl proxy`，执行后的输出类似如下（注意当前终端暂时无法使用其他命令）：
@@ -96,8 +96,12 @@ Starting to serve on 127.0.0.1:8001
 ```
 通过使用 `kubectl proxy` 所展示的地址，我们就可以直接访问 k8s API，例如 `curl http://127.0.0.1:8001/version` 就可获取当前 API Server 的版本。
 
-API Server 会自动根据 pod 的名字来为每个 pod 创建一个访问点（endpoint），该访问点也可以通过 proxy 来直接访问。
-
+API Server 会自动根据 pod 的名字来为每个 pod 创建一个访问点（endpoint），该访问点也可以通过 proxy 来直接访问：
+```
+$ export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+$ echo Name of the Pod: $POD_NAME
+$ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
+```
 
 
 
@@ -113,5 +117,5 @@ API Server 会自动根据 pod 的名字来为每个 pod 创建一个访问点�
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI5MTk3MDQ4Nl19
+eyJoaXN0b3J5IjpbLTEyNDYxNjUzNzFdfQ==
 -->
