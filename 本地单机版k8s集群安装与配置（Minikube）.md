@@ -67,7 +67,8 @@ cluster: Running
 kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 ```
 
-## 5. ji'q测试
+## 5. 集群的运行与测试
+
 
 ## 注意事项
 1. 机器的内存必须在4G以上，否则启动 VirtualBox 时会失败
@@ -78,5 +79,5 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyMjI3ODA3NThdfQ==
+eyJoaXN0b3J5IjpbLTE3NjA3OTQ4MTddfQ==
 -->
