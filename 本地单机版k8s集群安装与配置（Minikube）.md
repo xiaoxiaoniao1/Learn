@@ -73,7 +73,7 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 
 ## 5. 在集群上部署应用
 
-
+`kub`
 
 
 
@@ -87,5 +87,5 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjE5ODgzMTEwXX0=
+eyJoaXN0b3J5IjpbMTEyOTgzNjhdfQ==
 -->
