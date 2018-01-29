@@ -93,6 +93,8 @@ kubectl get deployments
 
 
 
+
+
 ## 注意事项
 1. 机器的内存必须在4G以上，否则启动 VirtualBox 时会失败
 2. 使用 curl 下载时，偶尔会因为网速问题无法下载成功。此时应当通过其他方式下载文件然后手动上传到系统中
@@ -102,5 +104,5 @@ kubectl get deployments
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTYxMzI5NzQzMF19
+eyJoaXN0b3J5IjpbMTIzNTU5NTc5MF19
 -->
