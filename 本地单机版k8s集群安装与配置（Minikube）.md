@@ -89,7 +89,7 @@ kubectl run kubernetes-bootcamp --image=docker.io/jocatalin/kubernetes-bootcamp:
 kubectl get deployments
 ```
 
-默认情况下，集群中的 pods 对外部网络是不可见的，但 `kubectl p
+默认情况下，集群中的 pods 对外部网络是不可见的，但 kubectl 可以创建一个
 
 
 
@@ -102,5 +102,5 @@ kubectl get deployments
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTMzODU4ODYzXX0=
+eyJoaXN0b3J5IjpbLTE5OTA1Mjg3OTZdfQ==
 -->
