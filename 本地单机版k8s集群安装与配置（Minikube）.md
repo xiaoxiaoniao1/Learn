@@ -1,10 +1,10 @@
 # 本地单机版K8S集群的安装与配置
 
-在本教程中，我们将会在自己的本地机器上部署一个单节点的 k8s 集群，并尝试在集群上部署一个应用。
-
-k8s 集群由一个 master 节点与多个 node 节点组成，所有节点均是一个在逻辑上独立的机器 。master 节点是管理整个集群的节点，而 node 节点是具体执行业务的节点，每个 node 都有一个 kubelet 作为其代理用于与 master 通信。 k8s 集群的通信标准是使用 Kubernetes API，不仅 node 与 master 使用该 API 通信，终端用户也可以通过该 API 管理集群。
+k8s 集群由一个 master 节点与多个 node 节点组成，所有节点均是一个在逻辑上独立的机器 。master 节点是管理整个集群的节点，而 node 节点是具体执行业务的节点，每个 node 都有一个 kubelet 作为其代理用于与 master 通信。
 
 ![enter image description here](https://d33wubrfki0l68.cloudfront.net/99d9808dcbf2880a996ed50d308a186b5900cec9/40b94/docs/tutorials/kubernetes-basics/public/images/module_01_cluster.svg)
+
+而在本教程中，我们将会在自己的本地机器上部署一个单节点的 k8s 集群，并尝试在集群上部署一个应用。
 
  [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) 是一个用于在本地上运行 kubernates 的工具插件。Minikube 可在本地机器上创建一个虚拟机（需要安装对应的虚拟机驱动，如 VirtualBox、KVM 等），从而运行一个单节点的 k8s 集群。
 
@@ -94,5 +94,5 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzQyMjM5ODE4XX0=
+eyJoaXN0b3J5IjpbMTAzNzcxNzE0MV19
 -->
