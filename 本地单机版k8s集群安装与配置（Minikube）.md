@@ -2,7 +2,7 @@
 
 在本教程中，我们将会在自己的本地机器上部署一个单节点的 k8s 集群，并尝试在集群上部署一个应用。
 
-k8s 集群由一个 master 节点与多个 node 节点组成，所有节点均是一个逻辑上独立的机器。master 节点是管理整个集群的节点，而 node 节点是具体存放容器 
+k8s 集群由一个 master 节点与多个 node 节点组成，所有节点均是一个逻辑上独立的机器。master 节点是管理整个集群的节点，而 node 节点是具体存放容器、执行业务的节点。 
 
 ![enter image description here](https://d33wubrfki0l68.cloudfront.net/99d9808dcbf2880a996ed50d308a186b5900cec9/40b94/docs/tutorials/kubernetes-basics/public/images/module_01_cluster.svg)
 
@@ -94,5 +94,5 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA4MTc4MjU4NF19
+eyJoaXN0b3J5IjpbLTE1ODM3MjUxMDZdfQ==
 -->
