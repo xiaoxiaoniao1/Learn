@@ -76,6 +76,7 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 使用 `kubectl version` 可查看当前的 k8s 集群的客户端与服务端的版本；使用 `kubectl cluster-info` 可查看集群的详细部署情况；使用 `kubectl get nodes` 查看集群节点情况。
 
 ## 5. 在集群上部署应用
+
 部署文件（deployment）是用于指导 k8s 集群如何创建与维护应用实例的。
 
 ![enter image description here](https://d33wubrfki0l68.cloudfront.net/152c845f25df8e69dd24dd7b0836a289747e258a/4a1d2/docs/tutorials/kubernetes-basics/public/images/module_02_first_app.svg)
@@ -94,5 +95,5 @@ kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAzNzcxNzE0MV19
+eyJoaXN0b3J5IjpbLTEwOTk1ODI5N119
 -->
