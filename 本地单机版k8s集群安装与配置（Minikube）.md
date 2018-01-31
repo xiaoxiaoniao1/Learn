@@ -89,6 +89,8 @@ $ kubectl run kubernetes-bootcamp --image=docker.io/jocatalin/kubernetes-bootcam
 $ kubectl get deployments
 ```
 
+> Pod 是 k8s 集群管理的基本单位。当一个 deployment 创建后，集群将会创建一个 Pod 来管理应用实例。一个 Pod 是一个 k8s 抽象，代表了一组（一个或多个）应用容器，且这些容器之间共享存储、网络等资源。
+
 默认情况下，集群中的 pods 对外部网络是不可见的，但 kubectl 可以创建一个能够转发请求到集群端私有网络的代理：`kubectl proxy`，执行后的输出类似如下（注意当前终端会阻塞）：
 ```
 $ kubectl proxy
@@ -103,7 +105,7 @@ $ echo Name of the Pod: $POD_NAME
 $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 ```
 
-Pod 是 k8s 集群管理的基本单位。当一个 deployment 创建后，集群将会创建一个 Pod 来管理应用实例。一个 Pod 是一个 k8s 抽象，代表了一组（一个或多个）应用容器，且这些容器之间共享存储、网络等资源。
+
 
 
 
@@ -118,5 +120,5 @@ Pod 是 k8s 集群管理的基本单位。当一个 deployment 创建后，集�
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzNzkzODk3MDJdfQ==
+eyJoaXN0b3J5IjpbMTU3MjY0ODA2Ml19
 -->
