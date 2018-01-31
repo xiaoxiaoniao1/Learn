@@ -107,11 +107,15 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 
 ## 6. 查看 Pod 与 Node
 
-一个 Pod 运行于一个 Node 上，Node 则是 k8s 集群中的执行业务的逻辑主机（虚拟机或者物理机），由 master 进行管理。一个 Node 可以拥有多个 Pod，且 master 会在集群中多个 node 之间自动调度 Pod。示意图如下：
+一个 Pod 运行于一个 Node 上，Node 则是 k8s 集群中的执行业务的逻辑主机（虚拟机或者物理机），由 master 进行管理。一个 Node 可以拥有多个 Pod，且 master 可以在集群中的多个 node 之间自动调度 Pod。示意图如下：
 
 ![enter image description here](https://d33wubrfki0l68.cloudfront.net/5cb72d407cbe2755e581b6de757e0d81760d5b86/a9df9/docs/tutorials/kubernetes-basics/public/images/module_03_nodes.svg)
 
-
+常用的查询命令包括：
+- kubectl get - list resources
+- kubectl describe - show detailed information about a resource
+- kubectl logs - print the logs from a container in a pod
+- kubectl exec - execute a command on a container in a pod
 
 
 
@@ -124,5 +128,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ0OTIyNDY0M119
+eyJoaXN0b3J5IjpbMTk5NzU0ODc1Nl19
 -->
