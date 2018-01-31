@@ -119,7 +119,7 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 
 ## 7. 部署 Service
 
-
+yi
 
 ## 注意事项
 1. 机器的内存必须在4G以上，否则启动 VirtualBox 时会失败
@@ -130,5 +130,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDU2NzYyMjQyXX0=
+eyJoaXN0b3J5IjpbLTEzNDIwMTY0MzBdfQ==
 -->
