@@ -123,7 +123,7 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 
 尽管每个 Pod 都有自己独立的 IP，但是这些 IP 要是没有 Service 就无法暴露于外部网络。Service 有以下配置模式：
 - ClusterIP (default) ： 以一个内部 IP 暴露服务。这种模式使得服务只能在集群内可被访问。
-- NodePort：使用 NAT 以 Node 端口的形式暴露服务。从而j使用 \<NodeIP\>:\<NodePort\> 的方式可让集群外部访问。
+- NodePort：使用 NAT 以 Node 端口的形式暴露服务。从而就可以使用 \<NodeIP\>:\<NodePort\> 的方式让集群外部访问。
 - LoadBalancer - Creates an external load balancer in the current cloud (if supported) and assigns a fixed, external IP to the Service. Superset of NodePort.
 - ExternalName - Exposes the Service using an arbitrary name (specified by externalName in the spec) by returning a CNAME record with the name. No proxy is used. This type requires v1.7 or higher of kube-dns.
 
@@ -138,5 +138,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcxMTE4ODc3M119
+eyJoaXN0b3J5IjpbMzM0ODIxNzYxXX0=
 -->
