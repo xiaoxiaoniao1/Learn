@@ -103,7 +103,7 @@ $ echo Name of the Pod: $POD_NAME
 $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 ```
 
-Pod 是 k8s 集群管理的基本单位。当一个 deployment 创建后，集群将会创建一个 Pod
+Pod 是 k8s 集群管理的基本单位。当一个 deployment 创建后，集群将会创建一个 Pod 来管理 app 实例。一个 Pod 是一个
 
 
 
@@ -118,5 +118,5 @@ Pod 是 k8s 集群管理的基本单位。当一个 deployment 创建后，集�
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwNDEzNjYwOTldfQ==
+eyJoaXN0b3J5IjpbMzk0ODQ3NDEzXX0=
 -->
