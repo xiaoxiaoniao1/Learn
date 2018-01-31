@@ -121,8 +121,11 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 
 一个 Service 是集群中的一个抽象，它定义了一组逻辑相关的 Pods 以及如何访问它们的策略。Services 允许独立的 Pods 间的松耦合。
 
-尽管每个 Pod 都有自己独立的 IP，但是这些 IP 要是没有 Service 就无法暴露于外部网络。Service 有以下类型：
-- 
+尽管每个 Pod 都有自己独立的 IP，但是这些 IP 要是没有 Service 就无法暴露于外部网络。Service 有以下配置模式：
+- ClusterIP (default) - Exposes the Service on an internal IP in the cluster. This type makes the Service only reachable from within the cluster. 
+- NodePort - Exposes the Service on the same port of each selected Node in the cluster using NAT. Makes a Service accessible from outside the cluster using <NodeIP>:<NodePort>. Superset of ClusterIP.
+- LoadBalancer - Creates an external load balancer in the current cloud (if supported) and assigns a fixed, external IP to the Service. Superset of NodePort.
+- ExternalName - Exposes the Service using an arbitrary name (specified by externalName in the spec) by returning a CNAME record with the name. No proxy is used. This type requires v1.7 or higher of kube-dns.
 
 
 
@@ -135,5 +138,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzE1NDUyMTFdfQ==
+eyJoaXN0b3J5IjpbMjAwOTQxODQ2MF19
 -->
