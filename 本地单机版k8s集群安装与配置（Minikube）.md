@@ -117,6 +117,8 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 - **kubectl logs** : 打印某个 Pod 中的一个容器的日志
 - **kubectl exec** : 在一个 Pod 中的一个容器中执行命令
 
+## 7. 部署 Service
+
 
 
 ## 注意事项
@@ -128,5 +130,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzgzOTI3NjA2XX0=
+eyJoaXN0b3J5IjpbNDU2NzYyMjQyXX0=
 -->
