@@ -121,7 +121,7 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 
 一个 Service 是集群中的一个抽象，它定义了一组逻辑相关的 Pods 以及如何访问它们的策略。Services 允许独立的 Pods 间的松耦合。
 
-尽管每个 Pod 都有自己独立的 IP，但是这些 IP 要是没有
+尽管每个 Pod 都有自己独立的 IP，但是这些 IP 要是没有 Service 就无法
 
 
 
@@ -134,5 +134,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwOTA1NTY0NDhdfQ==
+eyJoaXN0b3J5IjpbLTU5NjQzMzMxN119
 -->
