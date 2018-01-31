@@ -105,7 +105,9 @@ $ echo Name of the Pod: $POD_NAME
 $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 ```
 
+一个 Pod 运行于一个 Node 上，
 
+![enter image description here](https://d33wubrfki0l68.cloudfront.net/5cb72d407cbe2755e581b6de757e0d81760d5b86/a9df9/docs/tutorials/kubernetes-basics/public/images/module_03_nodes.svg)
 
 
 
@@ -120,5 +122,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODYzMTg2NDYwXX0=
+eyJoaXN0b3J5IjpbNzMxMTE2NDcwXX0=
 -->
