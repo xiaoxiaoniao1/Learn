@@ -114,8 +114,8 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 常用的查询应用的命令包括：
 - **kubectl get** ： 列出资源
 - **kubectl describe** : 展示资源详情
-- **kubectl logs** : print the logs from a container in a pod
-- **kubectl exec** : execute a command on a container in a pod
+- **kubectl logs** : 打印某个 Pod 中的一个容器的日志
+- **kubectl exec** : 在一个 Pod 中的一个容器中执行命令
 
 
 
@@ -128,5 +128,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ5ODMxOTgyNV19
+eyJoaXN0b3J5IjpbMzgzOTI3NjA2XX0=
 -->
