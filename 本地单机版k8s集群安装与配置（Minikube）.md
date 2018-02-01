@@ -14,7 +14,7 @@ k8s 集群由一个 master 节点与多个 node 节点组成，所有节点均�
 
 ![minikube 原理说明图](https://yqfile.alicdn.com/c03a43e0731ca579d1844fb44269fd2fd257bfb3.jpeg)
 
-[VirtualBox](https://www.virtualbox.org/) 是一款支持 x86 和 AMD64/Intel64 的开源虚拟机软件，支持 Window、Linux
+[VirtualBox](https://www.virtualbox.org/) 是一款支持 x86 和 AMD64/Intel64 的开源虚拟机软件，支持 Window、Linux 等系统。在本教程中，我们把它作为 Minikube 的虚拟机驱动。
 
 ## 1.  事前准备
 
@@ -148,5 +148,5 @@ Service 使用标签（Label）和选择器（Selector）来匹配一组 Pods。
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjkxODU2NzY2XX0=
+eyJoaXN0b3J5IjpbMTY0MTA1OTgwOF19
 -->
