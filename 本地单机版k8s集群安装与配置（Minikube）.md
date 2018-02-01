@@ -117,8 +117,6 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 - **kubectl logs** : 打印某个 Pod 中的一个容器的日志
 - **kubectl exec** : 在一个 Pod 中的一个容器中执行命令
 
-
-
 ## 7. 部署 Service
 
 一个 Service 是集群中的一个抽象，它定义了一组逻辑相关的 Pods 以及如何访问它们的策略。Services 允许独立的 Pods 间的松耦合。
@@ -146,5 +144,5 @@ Service 使用标签（Label）和选择器（Selector）来匹配一组 Pods。
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA3MDA1NjY2XX0=
+eyJoaXN0b3J5IjpbLTE0MTkxODA0MTBdfQ==
 -->
