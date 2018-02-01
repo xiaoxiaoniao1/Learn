@@ -127,7 +127,7 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 - ClusterIP（默认）： 赋予 Service 一个集群内部 IP 。这种模式使得服务只能在集群内可被访问。
 - NodePort：通过 NAT 允许 Service 使用集群内一个 Node 的 IP。从而就可以使用 \<NodeIP\>:\<NodePort\> 的方式让该 Service 可被集群外部访问。
 - LoadBalancer：创建一个外部负载均衡器，并赋予 Service 一个固定的外部 IP。
-- ExternalName - Exposes the Service using an arbitrary name (specified by externalName in the spec) by returning a CNAME record with the name. No proxy is used. This type requires v1.7 or higher of kube-dns.通过返回一个 CNAME 记录
+- ExternalName - Exposes the Service using an arbitrary name (specified by externalName in the spec) by returning a CNAME record with the name. No proxy is used. 不使用代理，赋予 Service 一个任意的名字（在配置文件中决定）
 
 
 
@@ -140,5 +140,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE1MjEwMDUwMF19
+eyJoaXN0b3J5IjpbNTc1ODUyNDA4XX0=
 -->
