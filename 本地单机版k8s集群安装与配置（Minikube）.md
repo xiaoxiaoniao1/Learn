@@ -123,6 +123,8 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 
 一个 Service 是集群中的一个抽象，它定义了一组逻辑相关的 Pods 以及如何访问它们的策略。Services 允许独立的 Pods 间的松耦合。
 
+![enter image description here](https://d33wubrfki0l68.cloudfront.net/cc38b0f3c0fd94e66495e3a4198f2096cdecd3d5/ace10/docs/tutorials/kubernetes-basics/public/images/module_04_services.svg)
+
 尽管每个 Pod 都有自己独立的 IP，但是这些 IP 要是没有 Service 就无法暴露于外部网络。Service 有以下配置模式：
 - ClusterIP（默认）： 赋予 Service 一个集群内部 IP 。这种模式使得服务只能在集群内可被访问。
 - NodePort：通过 NAT 允许 Service 使用集群内一个 Node 的 IP。从而就可以使用 \<NodeIP\>:\<NodePort\> 的方式让该 Service 可被集群外部访问。
@@ -140,5 +142,5 @@ $ curl http://localhost:8001/api/v1/proxy/namespaces/default/pods/$POD_NAME/
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjU1NjY5NTM2XX0=
+eyJoaXN0b3J5IjpbMTE2ODkyNDc2Nl19
 -->
