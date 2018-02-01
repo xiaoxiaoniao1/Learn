@@ -19,7 +19,7 @@ k8s 集群由一个 master 节点与多个 node 节点组成，所有节点均�
 ## 1.  事前准备
 
 - 准备好一台操作系统为 Linux CentOS 7 系统、内存为 **4G 以上**的虚机（或物理机），完成换源与关闭防火墙和 SELinux
-- 需要在虚机上安装 VirtualBox 或 KVM 作为虚拟化软件（本教程将会介绍 VirtualBox 的安装）
+- 需要在虚机上安装 VirtualBox 或 KVM 作为虚拟化软件（本教程介绍 VirtualBox 的安装）
 - 设置 CPU 支持虚拟化 VT-X（若是物理机则在BIOS上设置，若是虚机则在VMware里设置 ）
 
 ## 2. 配置 kubectl 与 Minikube
@@ -148,5 +148,5 @@ Service 使用标签（Label）和选择器（Selector）来匹配一组 Pods。
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY0MTA1OTgwOF19
+eyJoaXN0b3J5IjpbLTE5NDU3MDkyNjBdfQ==
 -->
