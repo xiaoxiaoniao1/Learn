@@ -137,7 +137,8 @@ Service 使用标签（Label）和选择器（Selector）来匹配一组 Pods。
 - LoadBalancer：创建一个外部负载均衡器，并赋予 Service 一个固定的外部 IP。
 - ExternalName - 不使用代理，赋予 Service 一个任意的名字（由配置文件中的 `externalName`参数决定）
 
-
+使用以下命令：
+`kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080`
 
 ## 注意事项
 1. 机器的内存必须在4G以上，否则启动 VirtualBox 时会失败
@@ -148,5 +149,5 @@ Service 使用标签（Label）和选择器（Selector）来匹配一组 Pods。
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzODc1MzQ0MzRdfQ==
+eyJoaXN0b3J5IjpbNTE0NjQ2NjA1XX0=
 -->
