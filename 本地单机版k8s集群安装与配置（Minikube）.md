@@ -135,10 +135,72 @@ Service 使用标签（Label）和选择器（Selector）来匹配一组 Pods。
 - ClusterIP（默认）： 赋予 Service 一个集群内部 IP 。这种模式使得服务只能在集群内可被访问。
 - NodePort：通过 NAT 允许 Service 使用集群内一个 Node 的 IP。从而就可以使用 \<NodeIP\>:\<NodePort\> 的方式让该 Service 可被集群外部访问。
 - LoadBalancer：创建一个外部负载均衡器，并赋予 Service 一个固定的外部 IP。
-- ExternalName - 不使用代理，赋予 Service 一个任意的名字（由配置文件中的 `externalName`参数决定）
+- ExternalName：不使用代理，赋予 Service 一个任意的名字（由配置文件中的 `externalName` 参数决定）
 
-使用以下命令：
-`kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080`
+以下命令可创建一个名为 “kubernetes-bootcamp” 的 NodePort 模式的 Service（其对外部网络可见）。再使用 `describe service` 命令可查看某个 Service 的详情：
+```
+$ kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
+$ kubectl describe services/kubernetes-bootcamp
+```
+
+可设置环境变量 NODE_PORT，通过 \<NodeIP\>:\<NodePort\> 从外网访问该 Service：
+```
+$ export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
+$ echo NODE_PORT=$NODE_PORT
+$ curl host01:$NODE_PORT
+```
+
+接下来介绍 Label（标签）的使用。Deployment 会自动为 Pod 创建一个 Label，使用`kubectl describe`可以查看 Label 名字。使用带参的 `kubectl get` 命令可以查询特定 Label 的 Pod 或 Service。
+```
+$ kubectl get pods -l run=kubernetes-bootcamp
+$ kubectl get services -l run=kubernetes-bootcamp
+```
+
+使用 `kubectl label` 命令为 Pod 增加一个新 Label 后，可用`kubectl describe`查询该 Pod 是否已有新 Label：
+```
+$ export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+$ echo Name of the Pod: $POD_NAME
+$ kubectl label pod $POD_NAME app=v1
+$ kubectl describe pods $POD_NAME
+```
+
+删除一个指定标签的 Service，之后便可测试到外部无法再通过 NodeIP 的方式访问到 app 了，但 app 仍在 Pod 中运行：
+```
+$ kubectl delete service -l run=kubernetes-bootcamp
+$ curl host01:$NODE_PORT
+$ kubectl exec -ti $POD_NAME curl localhost:8080
+```
+
+## 8. 调整应用规模
+在之前的章节中，Deployment 只创建了一个 Pod 来运行应用，但当通信量增加时，就需要扩展应用数量来满足需求。实现的主要方式则是改变 Deployment 配置中的副本数量。应用规模变化的示意图如下：
+
+![enter image description here](https://d33wubrfki0l68.cloudfront.net/043eb67914e9474e30a303553d5a4c6c7301f378/0d8f6/docs/tutorials/kubernetes-basics/public/images/module_05_scaling1.svg)
+
+![enter image description here](https://d33wubrfki0l68.cloudfront.net/30f75140a581110443397192d70a4cdb37df7bfc/b5f56/docs/tutorials/kubernetes-basics/public/images/module_05_scaling2.svg)
+
+若当前集群已有一个 Deployment（假设名为"kubernetes-bootcamp"），则可使用`kubectl scale`命令来扩展副本数量到 4 个，之后便可以检查到 pods 数量发生了变化。同时该变化也被 Deployment 记录到日志，可在详情中查看。
+```
+$ kubectl scale deployments/kubernetes-bootcamp --replicas=4
+$ kubectl get deployments
+$ kubectl get pods -o wide
+$ kubectl describe deployments/kubernetes-bootcamp
+```
+
+## 9. 执行滚动更新
+通常用户希望应用可一直被访问，而开发者希望应用可短时间内更新多次。而**滚动更新**能满足该要求，允许应用以零停机时间进行部署更新（通过新增的 Pods 来更新 Pods 实例）。默认情况下，更新过程中不可用 Pods 的最大数量与新创建 Pods 的最大数量相等。k8s 集群也可以回滚该更新。
+
+![enter image description here](https://d33wubrfki0l68.cloudfront.net/678bcc3281bfcc588e87c73ffdc73c7a8380aca9/703a2/docs/tutorials/kubernetes-basics/public/images/module_06_rollingupdates2.svg)
+
+![enter image description here](https://d33wubrfki0l68.cloudfront.net/9b57c000ea41aca21842da9e1d596cf22f1b9561/91786/docs/tutorials/kubernetes-basics/public/images/module_06_rollingupdates3.svg)
+
+![enter image description here](https://d33wubrfki0l68.cloudfront.net/6d8bc1ebb4dc67051242bc828d3ae849dbeedb93/fbfa8/docs/tutorials/kubernetes-basics/public/images/module_06_rollingupdates4.svg)
+
+使用`set image`命令可进行镜像更新，`rollout status`命令可进行更新确认提交，`rollout undo`可进行更新回滚。
+```
+$ kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
+$ kubectl rollout status deployments/kubernetes-bootcamp
+$ kubectl rollout undo deployments/kubernetes-bootcamp
+```
 
 ## 注意事项
 1. 机器的内存必须在4G以上，否则启动 VirtualBox 时会失败
@@ -149,5 +211,5 @@ Service 使用标签（Label）和选择器（Selector）来匹配一组 Pods。
 [Running Kubernetes Locally via Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/#minikube-features)（来自官网）
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTE0NjQ2NjA1XX0=
+eyJoaXN0b3J5IjpbODY4MTQzMTkyXX0=
 -->
