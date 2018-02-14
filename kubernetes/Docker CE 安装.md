@@ -87,9 +87,9 @@ EOF
 $ sudo sysctl -p
 ```
 ## 参考资料
-[CentOS 安装 Docker CE](https://yeasy.gitbooks.io/docker_practice/content/install/centos.html)
-[Docker 官方 CentOS 安装文档](https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository)
-[docker-runc did not terminate sucessfully: unknown](https://github.com/moby/moby/issues/35906)
+- [CentOS 安装 Docker CE](https://yeasy.gitbooks.io/docker_practice/content/install/centos.html)
+- [Docker 官方 CentOS 安装文档](https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository)
+- [docker-runc did not terminate sucessfully: unknown](https://github.com/moby/moby/issues/35906)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTI1MzQxODg5XX0=
+eyJoaXN0b3J5IjpbLTg3MjE1NTY1NF19
 -->
