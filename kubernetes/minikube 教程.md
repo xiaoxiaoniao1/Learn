@@ -107,6 +107,8 @@ hello-node-714049816-ztzrb   1/1       Running   0          6m
 
 ### 如何解决 pod 创建失败的问题（在国内 gcr.io 被 GFW 屏蔽）
 
+在有一台 VPS 服务器的情况下，当然最好的办法莫过于设置“科学上网”：[(科学上网)Linux 配置 Shadowsocks 客户端](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%28%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%29Linux%20%E9%85%8D%E7%BD%AE%20Shadowsocks%20%E5%AE%A2%E6%88%B7%E7%AB%AF.md)，可以一劳永逸解决问题。如果没有 VPS，就需要按照下面的办法解决了。
+
 运行镜像后如果服务一直是 containerCreating 状态且没有变化，则是创建实例出现问题。如下方法查看日志：
 ```
 $ sudo minikube logs
@@ -260,5 +262,5 @@ docker tag registry.cn-hangzhou.aliyuncs.com/outman_google_containers/k8s-dns-ku
 
 [利用Minikube来部署一个nodejs应用](https://www.jianshu.com/p/c8bb49edf466)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA2NzMyNzEzM119
+eyJoaXN0b3J5IjpbMjAzMDE2MzY5NF19
 -->
