@@ -87,7 +87,7 @@ export all_proxy=http://$PROXY_HOST:8118
 export ftp_proxy=http://$PROXY_HOST:8118
 export http_proxy=http://$PROXY_HOST:8118
 export https_proxy=http://$PROXY_HOST:8118
-export no_proxy=localhost,172.16.0.0/16,192.168.0.0/16.,127.0.0.1,10.10.0.0/16
+export no_proxy=localhost,172.16.0.0/16,192.168.0.0/16,127.0.0.1,10.10.0.0/16
 
 # 重载环境变量
 source /etc/profile
@@ -119,5 +119,5 @@ Proxy-Connection: keep-alive
 while read var; do unset $var; done < <(env | grep -i proxy | awk -F= '{print $1}')
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMwNzc4MDA1XX0=
+eyJoaXN0b3J5IjpbMjA4NzQyMzIzNV19
 -->
