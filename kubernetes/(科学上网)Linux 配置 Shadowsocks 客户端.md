@@ -96,8 +96,6 @@ export no_proxy=localhost,172.16.0.0/16,192.168.0.0/16,127.0.0.1,10.10.0.0/16,mi
 source /etc/profile
 ```
 
-
-
 ## 测试代理
 ```
 [root@aniu-k8s ~]# curl -I www.google.com 
@@ -123,6 +121,8 @@ Proxy-Connection: keep-alive
 ```
 while read var; do unset $var; done < <(env | grep -i proxy | awk -F= '{print $1}')
 ```
+
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNzgzMzEwMjhdfQ==
+eyJoaXN0b3J5IjpbMTQyNDM1MDgyOF19
 -->
