@@ -1,4 +1,4 @@
-# K8S 集群的介绍与配置（本地单机版）
+# K8S 集群的介绍安装与配置（本地单机版）
 
 k8s 集群由一个 master 节点与多个 node 节点组成，所有节点均是在逻辑上独立的一个机器 。master 节点是管理整个集群的节点，而 node 节点是具体执行业务的节点，每个 node 都有一个 kubelet 作为其代理用于与 master 通信。
 
@@ -216,5 +216,5 @@ $ kubectl rollout undo deployments/kubernetes-bootcamp
 
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcyNDYxMzgxNl19
+eyJoaXN0b3J5IjpbLTEwODYzMDk1NiwxNzI0NjEzODE2XX0=
 -->
