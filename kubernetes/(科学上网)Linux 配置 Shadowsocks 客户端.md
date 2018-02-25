@@ -79,6 +79,9 @@ systemctl status privoxy
 listen-address 127.0.0.1:8118 # 8118 是默认端口，不用改
 forward-socks5t / 127.0.0.1:1080 . #转发到本地端口，注意最后有个点
 ```
+
+## 设置代理
+
 设置 http、https 代理：
 ```
 # vi /etc/profile 在最后添加如下信息
@@ -92,6 +95,7 @@ export no_proxy=localhost,172.16.0.0/16,192.168.0.0/16,127.0.0.1,10.10.0.0/16,mi
 # 重载环境变量
 source /etc/profile
 ```
+
 
 ## 测试代理
 ```
@@ -119,5 +123,5 @@ Proxy-Connection: keep-alive
 while read var; do unset $var; done < <(env | grep -i proxy | awk -F= '{print $1}')
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzczMjQyNTM3XX0=
+eyJoaXN0b3J5IjpbLTEyNDg0OTI0ODJdfQ==
 -->
