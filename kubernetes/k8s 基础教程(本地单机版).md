@@ -216,5 +216,5 @@ $ kubectl rollout undo deployments/kubernetes-bootcamp
 
 [Minikube：使用 Kubernetes 进行本地开发](https://linux.cn/article-8847-1.html)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwODYzMDk1NiwxNzI0NjEzODE2XX0=
+eyJoaXN0b3J5IjpbLTEwODYzMDk1Nl19
 -->
