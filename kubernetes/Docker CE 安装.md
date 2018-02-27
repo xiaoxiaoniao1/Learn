@@ -3,7 +3,7 @@
 ```
 $ yum install yum-utils device-mapper-persistent-data lvm2
 ```
-添加 Docker 的软件源（也可以挂代理来使用官方的源）：
+添加 Docker 的软件源（这里使用的是国内源，也可以挂代理来使用官方的源）：
 ```
 $ sudo yum-config-manager \
     --add-repo \
@@ -91,5 +91,5 @@ $ sudo sysctl -p
 - [Docker 官方 CentOS 安装文档](https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository)
 - [docker-runc did not terminate sucessfully: unknown](https://github.com/moby/moby/issues/35906)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjI4ODkxODk0XX0=
+eyJoaXN0b3J5IjpbMTQ1OTM0ODE3XX0=
 -->
