@@ -12,13 +12,14 @@ kubeadm 是一个用于快速创建与扩展 k8s 集群的工具包。本教程�
 - 每台机器关闭防火墙与 SELinux
 - 每台机器彼此之间都可以通过网络联通
 - 拥有一个可以“科学上网”的 ShadowSocksS 服务器
-：每台机器执行`swapoff -a`。（注意：机器重启后可能需要再次禁用 swap）
+
+禁用 swap，以保证 kubelet 正确运行：每台机器执行`swapoff -a`。（注意：机器重启后可能需要再次禁用 swap）
 
 确认每台机器的 MAC 地址与 product_uuid 都是独有的。查询 MAC 地址：`ifconfig -a`，查询 product_uuid：`cat /sys/class/dmi/id/product_uuid`。
 
 拥有一个可以科学上网的 VPS 服务器：[VPS 配置 Shadowsocks 教程](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%E9%85%8D%E7%BD%AE%20VPS%20%E8%BF%9B%E8%A1%8C%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91.md)。
 
-可以科学上网：[Linux 配置 Shadowsocks 客户端](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%28%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%29Linux%20%E9%85%8D%E7%BD%AE%20Shadowsocks%20%E5%AE%A2%E6%88%B7%E7%AB%AF.md)，以及 [为 Docker 配置网络代理](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%E4%B8%BA%20Docker%20%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86.md)。如果不能科学上网的话，就会导致很多镜像无法正常下载。
+每台机器都可以科学上网：[Linux 配置 Shadowsocks 客户端](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%28%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%29Linux%20%E9%85%8D%E7%BD%AE%20Shadowsocks%20%E5%AE%A2%E6%88%B7%E7%AB%AF.md)，以及 [为 Docker 配置网络代理](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%E4%B8%BA%20Docker%20%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86.md)。如果不能科学上网的话，就会导致很多镜像无法正常下载。
 
 ## 二. 安装依赖环境
 
@@ -38,7 +39,7 @@ $ systemctl enable docker && systemctl start docker
     /tc/docker/eoso
   ec atuiersystemdocker  et r ocker``
 
-### 安装 kubeadm, kubelet  kubectl
+### 安装 kubeadm, kubelet 与 kubectl
 
 需要在所有节点上安装：
 - kubeadm：引导集群的命令工具
@@ -72,7 +73,7 @@ EOF
 $ sysctl --system
 ```
 
-若 Docker 也配置了代理下载如下镜像到本地：
+若 Docker 也配置了代理“科学上网”，则可直接进行下一步，否则就需要手动下载如下镜像到本地：
 ```
 REPOSITORY                                               TAG                 IMAGE ID            CREATED             SIZE
 gcr.io/google_containers/kube-apiserver-amd64            v1.9.1              e313a3e9d78d        7 weeks ago         210.4 MB
@@ -88,7 +89,7 @@ gcr.io/google_containers/pause-amd64                     3.0                 99e
 ```
 可通过 [官网](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/) 来查看所需手动下载的依赖镜像的版本。
 
-## 三. 使用 kubeadm 集群
+## 三. 使用 kubeadm 初始化集群
 
 在一个节点（该节点将会成为集群的 master ）上使用`kubeadm init --kubernetes-version 1.9.1 --pod-network-cidr=10.244.0.0/16`来初始化一个集群（`--pod-network-cidr` 在下一节介绍）。
 
@@ -499,5 +500,5 @@ $ openssl x509 -pubkey -in  /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -out
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzc3ODY4MTg4XX0=
+eyJoaXN0b3J5IjpbLTI0MjgyMTA0Myw3Nzc4NjgxODhdfQ==
 -->
