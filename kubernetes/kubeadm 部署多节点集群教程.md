@@ -11,15 +11,14 @@ kubeadm 是一个用于快速创建与扩展 k8s 集群的工具包。本教程�
 - 每台机器拥有 2G 以上内存以及 2核 以上处理器
 - 每台机器关闭防火墙与 SELinux
 - 每台机器彼此之间都可以通过网络联通
-- 拥有一个可以“科学上网”的 ShadowSocks 服务器
-
-禁用 swap，以保证 kubelet 正确运行：每台机器执行`swapoff -a`。（注意：机器重启后可能需要再次禁用 swap）
+- 拥有一个可以“科学上网”的 ShadowSocksS 服务器
+：每台机器执行`swapoff -a`。（注意：机器重启后可能需要再次禁用 swap）
 
 确认每台机器的 MAC 地址与 product_uuid 都是独有的。查询 MAC 地址：`ifconfig -a`，查询 product_uuid：`cat /sys/class/dmi/id/product_uuid`。
 
 拥有一个可以科学上网的 VPS 服务器：[VPS 配置 Shadowsocks 教程](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%E9%85%8D%E7%BD%AE%20VPS%20%E8%BF%9B%E8%A1%8C%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91.md)。
 
-每台机器都可以科学上网：[Linux 配置 Shadowsocks 客户端](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%28%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%29Linux%20%E9%85%8D%E7%BD%AE%20Shadowsocks%20%E5%AE%A2%E6%88%B7%E7%AB%AF.md)，以及 [为 Docker 配置网络代理](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%E4%B8%BA%20Docker%20%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86.md)。如果不能科学上网的话，就会导致很多镜像无法正常下载。
+可以科学上网：[Linux 配置 Shadowsocks 客户端](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%28%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%29Linux%20%E9%85%8D%E7%BD%AE%20Shadowsocks%20%E5%AE%A2%E6%88%B7%E7%AB%AF.md)，以及 [为 Docker 配置网络代理](https://github.com/Zouzhp3/Learn/blob/master/kubernetes/%E4%B8%BA%20Docker%20%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86.md)。如果不能科学上网的话，就会导致很多镜像无法正常下载。
 
 ## 二. 安装依赖环境
 
@@ -33,9 +32,13 @@ $ yum-config-manager \
 $ yum makecache fast
 $ yum install -y docker-ce
 $ systemctl enable docker && systemctl start docker
+``` ocker stmeablekertesocker
 ```
+ ucgr    r 
+    /tc/docker/eoso
+  ec atuiersystemdocker  et r ocker``
 
-### 安装 kubeadm, kubelet 与 kubectl
+### 安装 kubeadm, kubelet  kubectl
 
 需要在所有节点上安装：
 - kubeadm：引导集群的命令工具
@@ -57,9 +60,9 @@ EOF
 $ yum install -y kubelet-1.9.1 kubeadm-1.9.1 kubectl-1.9.1
 $ systemctl enable kubelet && systemctl start kubelet
 ```
-> 选择 1.9.1 版本进行下载，但请注意必须确保 kubeadm， kubelet 的版本都一致，且 kubectl 不低于 kubeadm 的版本。
+> 选择 1.9.1 版本进行下载，但请注意必须确保 kubeadm， kubelet 的版本都一致，且与 kubectl 不低于 kubeadm 的版本。
 
-为防止初始化 k8s 时 RHEL/CentOS 7 的用户可能会报错配置失败：`You should ensure net.bridge.bridge-nf-call-iptables is set to 1 in your sysctl config`。需要执行如下命令：
+为防止“科学上网”，则可直接进行下一步。否则就需要手动 kubeadm 初始化 k8s 时 RHEL/CentOS 7 的用户可能会报错配置失败：`You should ensure net.bridge.bridge-nf-call-iptables is set to 1 in your sysctl config`。需要执行如下命令：
 ```
 # k8s.conf是k8s的配置文件
 $ cat <<EOF >  /etc/sysctl.d/k8s.conf
@@ -69,7 +72,7 @@ EOF
 $ sysctl --system
 ```
 
-若 Docker 也配置了代理“科学上网”，则可直接进行下一步，否则就需要手动下载如下镜像到本地：
+若 Docker 也配置了代理下载如下镜像到本地：
 ```
 REPOSITORY                                               TAG                 IMAGE ID            CREATED             SIZE
 gcr.io/google_containers/kube-apiserver-amd64            v1.9.1              e313a3e9d78d        7 weeks ago         210.4 MB
@@ -85,7 +88,7 @@ gcr.io/google_containers/pause-amd64                     3.0                 99e
 ```
 可通过 [官网](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/) 来查看所需手动下载的依赖镜像的版本。
 
-## 三. 使用 kubeadm 初始化集群
+## 三. 使用 kubeadm 集群
 
 在一个节点（该节点将会成为集群的 master ）上使用`kubeadm init --kubernetes-version 1.9.1 --pod-network-cidr=10.244.0.0/16`来初始化一个集群（`--pod-network-cidr` 在下一节介绍）。
 
@@ -393,6 +396,16 @@ wget https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-co
 kubectl create -f ./
 ```
 最后确认所有的 pod 都处于 running 状态，打开 Dashboard，集群的使用统计会以仪表盘的形式显示出来。
+## 四. 配置集群网络（Flannel）
+
+集群必须安装一个 pod 网络插件以便于 pods 能够互相通信，本教程中使用 Flannel 作为集群配置网络。
+
+> 为使 flannel 运行成功，`kubeadm init` 运行时必须加上参数`--pod-network-cidr=10.244.0.0/16`。
+
+运行：
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+```
 
 ## 注意事项
 
@@ -402,7 +415,9 @@ kubectl create -f ./
 
 ### 2. kubelet 服务不正常运行
 
-启动 `kubelet` 服务后 ，发现没有正常运行，日志报错如下：
+启动启动报错 
+
+单独使用 `kubelet` 服务后命令时 ，发现没有正常运行，日志报错如下：
 ```
 error: failed to run Kubelet: failed to create kubelet: misconfiguration: kubelet cgroup driver: "cgroupfs" is different from docker cgroup driver: "systemd"
 ``` 
@@ -410,7 +425,7 @@ kubelet 的配置文件是`/etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 
 后来发现，该配置文件是在集群初始化时才会成功读取，而单独执行`kubelet`时不会读取配置文件。
 
-因此无视此问题即可，不影响集群初始化。在集群初始化成功后，可以发现`kubelet`服务是正常运行的。
+因此无视此问题即可，不影响集群初始化。在集群初始化成功后，可以发现`kubelet`服务是正常运行的。后来发现不影响集群初始化，且成功初始化
 
 可参考：[1.6.0 kubelet fails with error "misconfiguration: kubelet cgroup driver: "cgroupfs" is different from docker cgroup driver: "systemd"](https://github.com/kubernetes/kubernetes/issues/43805)
 
@@ -430,6 +445,7 @@ kubelet 的配置文件是`/etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 [kubelet-check] It seems like the kubelet isn't running or healthy.  
 [kubelet-check] The HTTP call equal to 'curl -sSL [http://localhost:10255/healthz](http://localhost:10255/healthz)' failed with error: Get [http://localhost:10255/healthz](http://localhost:10255/healthz): dial tcp [::1]:10255: getsockopt: connection refused.
 ```
+
 经查资料发现是因为没有禁用 swap（每次机器重启会重置 swap），但是经过重置虚拟机网络以及恢复快照后得到的系统仍然会出现此错误。后来经过重新安装 kubeadm 与 kubelet 成功解决。
 
 ### 5. 忘记了集群初始化成功时输出的参考命令
@@ -475,7 +491,13 @@ $ openssl x509 -pubkey -in  /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -out
 
 [使用 kubeadm 创建 kubernetes 1.9 集群](https://www.kubernetes.org.cn/3357.html)
 
-[使用kubeadm在CentOS 7上安装Kubernetes 1.8](https://www.zybuluo.com/ncepuwanghui/note/953929)（Dashboard）
+[使用kubeadm在CentOS 7上安装Kubernetes 1.8](https://www.zybuluo.com/ncepuwanghui/note/953929)（Dashboard） 参考资料
+
+[Installing kubeadm](https://kubernetes.io/docs/setup/independent/install-kubeadm/) （来自官网）
+
+[使用kubeadm安装kubernetes1.7/1.8/1.9](http://blog.csdn.net/zhuchuangang/article/details/76572157#2-%E9%85%8D%E7%BD%AEkubelet)
+
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNjIwMDQwM119
+eyJoaXN0b3J5IjpbNzc3ODY4MTg4XX0=
 -->
