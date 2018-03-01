@@ -1,4 +1,5 @@
 # Docker CE 安装
+
 首先安装 Docker 的依赖包如下：
 ```
 $ yum install yum-utils device-mapper-persistent-data lvm2
@@ -91,5 +92,5 @@ $ sudo sysctl -p
 - [Docker 官方 CentOS 安装文档](https://docs.docker.com/install/linux/docker-ce/centos/#set-up-the-repository)
 - [docker-runc did not terminate sucessfully: unknown](https://github.com/moby/moby/issues/35906)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTQ1OTM0ODE3XX0=
+eyJoaXN0b3J5IjpbLTQ5MzE3MDg5M119
 -->
