@@ -1,8 +1,8 @@
-# kubeadm 部署双节点集群教程（1.9.1）
+# kubeadm 部署多节点 k8s 集群教程（1.9.1）
 
 kubeadm 是一个用于快速创建与扩展 k8s 集群的工具包。本教程主要讲述如何使用 kubeadm 构建一个双节点的 k8s 集群（版本为 1.9.1），构建集群中的 pod 通信网络，最后安装可视化的管理控制台。
 
-本教程的节点均是同一台 PC 虚拟出两台虚机。
+本教程的集群节点均是由同一台 PC 所虚拟出来的两台虚机。
 
 ## 一. 前提条件
 
@@ -276,7 +276,7 @@ $ kubectl --kubeconfig ./admin.conf get nodes
 
 ### 配置 API Server 的代理到本地 localhost（可选&重要）
 
-若需要从集群外部连接到集群的 API Server，则可以使用`kubectl proxy`：
+若需要从**集群外部**连接到集群的 API Server，则可以使用`kubectl proxy`：
 ```
 $ scp root@<master ip>:/etc/kubernetes/admin.conf .
 $ kubectl --kubeconfig ./admin.conf proxy
@@ -500,5 +500,5 @@ $ openssl x509 -pubkey -in  /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -out
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI0MjgyMTA0Myw3Nzc4NjgxODhdfQ==
+eyJoaXN0b3J5IjpbNjc2MDkxNDMxLDc3Nzg2ODE4OF19
 -->
