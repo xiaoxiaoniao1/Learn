@@ -1,4 +1,4 @@
-# Kubernetes 系统简介
+# Kubernetes 简介
 
 ## 什么是 Kubernetes
 
@@ -61,5 +61,5 @@ slave（也称作minion）运行两个组件：
 
 ![enter image description here](http://img.blog.csdn.net/20141030000812671?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdqdW4yOTE1/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA0MjA4MDUzM119
+eyJoaXN0b3J5IjpbMTEzOTkyMzk4NV19
 -->
