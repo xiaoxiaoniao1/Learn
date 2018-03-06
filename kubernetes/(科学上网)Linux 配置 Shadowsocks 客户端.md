@@ -22,7 +22,7 @@ sudo pip install shadowsocks
 sudo mkdir /etc/shadowsocks
 sudo vi /etc/shadowsocks/shadowsocks.json
 ```
-在配置文件中添加配置信息（需要有 Shadowsocks 服务器的地址、端口等信息）：
+在配置文件中添加配置信息（需要有 Shadowsocks 服务器的地址、端口等信息，且不能有中文）：
 ```
 {
     "server":"x.x.x.x",  # Shadowsocks服务器地址
@@ -124,5 +124,5 @@ while read var; do unset $var; done < <(env | grep -i proxy | awk -F= '{print $1
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTQyNDM1MDgyOF19
+eyJoaXN0b3J5IjpbLTE0NzA4ODUxMjddfQ==
 -->
