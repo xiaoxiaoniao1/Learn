@@ -1,5 +1,5 @@
 # （科学上网）Linux 配置 Shadowsocks 客户端
-
+ 
 ## 背景
 
 我们可以通过在境外配置一台安装 Shadowsocks 应用的 VPS 服务器作为代理，从而可以通过 Window 系统上安装 Shadowsocks 客户端而实现对境外网站的访问。但是 Linux 系统下如何配置 Shadowsocks 客户端呢？
@@ -124,5 +124,5 @@ while read var; do unset $var; done < <(env | grep -i proxy | awk -F= '{print $1
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0NzA4ODUxMjddfQ==
+eyJoaXN0b3J5IjpbNTI2MjQ4NjA5XX0=
 -->
