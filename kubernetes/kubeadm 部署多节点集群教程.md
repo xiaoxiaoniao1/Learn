@@ -397,16 +397,6 @@ wget https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-co
 kubectl create -f ./
 ```
 最后确认所有的 pod 都处于 running 状态，打开 Dashboard，集群的使用统计会以仪表盘的形式显示出来。
-## 四. 配置集群网络（Flannel）
-
-集群必须安装一个 pod 网络插件以便于 pods 能够互相通信，本教程中使用 Flannel 作为集群配置网络。
-
-> 为使 flannel 运行成功，`kubeadm init` 运行时必须加上参数`--pod-network-cidr=10.244.0.0/16`。
-
-运行：
-```
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
-```
 
 ## 注意事项
 
@@ -500,5 +490,5 @@ $ openssl x509 -pubkey -in  /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -out
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjc2MDkxNDMxLDc3Nzg2ODE4OF19
+eyJoaXN0b3J5IjpbNDk4MTAzMDE2LDc3Nzg2ODE4OF19
 -->
