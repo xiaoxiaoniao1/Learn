@@ -1,1 +1,475 @@
 
+1.1 	Kubernetes组件概念
+1.1.1 	云计算概念
+云计算技术其实是将物理的硬件服务器、操作系统、软件服务、网络带宽、流量、计费系统等资源组成一个大的资源池（动态扩容、弹性伸缩），然后所有的资源池可以分配给租户去使用，租户可以根据自身的需求，按需购买的资源。
+云计算技术强调的是资源池，是租户的概念，虚拟化技术是属于云计算技术框架中一个小模块、组件技术，云计算技术最终的产物：硬件设备、操作系统、软件服务、网络带宽等。每个产物都可以租给用户去使用，用户可以自行去购买。
+云计算技术的资源池，对于租户来讲，租户不需要了解云计算底层框架、架构，租用只要清楚自身的需求，自身对资源池的需求，需要多少台服务器、多少云主机、多大带宽，最终按需付费即可。
+1.1.2 	云计算技术的分类
+1）基础设施云（Infrastructure as a Service，IaaS）；
+	租户无需管理底层硬件设备、网络、服务器、存储、虚拟化技术；
+	租户只需对操作系统、中间件、数据、应用做维护即可；
+2）平台云（Platform-as-a-Service，PaaS）；
+	租户无需管理底层硬件设备、网络、服务器、存储、虚拟化技术、操作系统、中间件；
+	租户只需对应用服务、软件程序做维护、无需操作系统&底层设施；
+3）服务云（Software-as-a-Service，SaaS）；
+	租户无需管理底层硬件设备、网络、服务器、存储、虚拟化技术、操作系统、中间件、应用服务、软件程序等；
+	租户只需花钱、付费，提交业务需求，运营商将满足租户所有需求。
+ 
+1.1.3 	Kubernetes入门及概念介绍
+Kubernetes，又称为 k8s（首字母为 k、首字母与尾字母之间有 8 个字符。尾字母为 s，所以简称 k8s）或者简称为 "kube" ，是一种可自动实施 Linux 容器操作的开源平台。
+K8S可以帮助用户省去应用容器化过程的许多手动部署和扩展操作。我们可以将运行 Linux 容器的多组主机聚集在一起，由 Kubernetes 帮助您轻松高效地管理这些集群。而且，这些集群可跨公共云、私有云或混合云部署主机。因此，对于要求快速扩展的云原生应用而言（例如借助 Apache Kafka 进行的实时数据流处理），Kubernetes 是理想的托管平台。
+Kubernetes 最初由 Google 的工程师开发和设计。Google 是最早研发 Linux 容器技术的企业之一（组建了cgroups），曾公开分享介绍 Google 如何将一切都运行于容器之中（这是 Google 云服务背后的技术）。Google 每周会启用超过 20 亿个容器——全都由内部平台 Borg 支撑。Borg 是 Kubernetes 的前身，多年来开发 Borg 的经验教训成了影响 Kubernetes 中许多技术的主要因素。
+在企业生产环境中，APP应用会涉及部署到多个容器（主机）上。这些容器必须跨多个服务器主机进行部署。容器安全性需要多层部署，因此可能会比较复杂。但 Kubernetes 有助于解决这一问题。Kubernetes 可以提供所需的编排和管理功能，以便您针对这些工作负载大规模部署容器。借助 Kubernetes 编排功能，您可以构建跨多个容器的应用服务、跨集群调度、扩展这些容器，并长期持续管理这些容器的健康状况。
+Kubernetes（k8s）是自动化容器操作的开源平台，这些操作包括部署，调度和节点集群间扩展。如果你曾经用过Docker容器技术部署容器，可以将Docker看成Kubernetes内部使用的低级别组件。	Kubernetes不仅支持Docker，还支持Rocket，这是另一种容器技术。使用Kubernetes可以实现如下功能：
+	实现自动化容器的部署和复制；
+	实现跨多台主机进行容器编排和管理；
+	有效管控应用部署和更新，并实现自动化操作；
+	挂载和增加存储，用于运行有状态的应用；
+	能够快速、按需的扩展容器化应用及其资源；
+	对服务进行声明式管理，保证所部署的应用始终按照部署的方式运行；
+	更加充分地利用硬件，最大程度获取运行企业应用所需的资源；
+	利用自动布局、自动重启、自动复制以及自动扩展功能，对应用实施状况检查和自我修复。
+1.1.4 	Kubernetes平台组件概念
+Kubernetes集群中主要存在两种类型的节点：master、minion节点，Minion节点为运行 Docker容器的节点，负责和节点上运行的 Docker 进行交互，并且提供了代理功能。
+	Kubelect Master：Master节点负责对外提供一系列管理集群的API接口，并且通过和 Minion 节点交互来实现对集群的操作管理。
+	Apiserver：用户和 kubernetes 集群交互的入口，封装了核心对象的增删改查操作，提供了 RESTFul 风格的 API 接口，通过etcd来实现持久化并维护对象的一致性。
+	Scheduler：负责集群资源的调度和管理，例如当有 pod 异常退出需要重新分配机器时，scheduler 通过一定的调度算法从而找到最合适的节点。
+	Controller-manager：主要是用于保证 replication Controller 定义的复制数量和实际运行的 pod（容器） 数量一致，另外还保证了从 service 到 pod 的映射关系总是最新的。
+	Kubelet：运行在 minion节点，负责和节点上的Docker交互，例如启停容器，监控运行状态等。
+	Kube-Proxy：运行在 minion 节点，负责为 pod 提供代理功能，会定期从 etcd 获取 service 信息，并根据 service 信息通过修改 iptables 来实现流量转发（最初的版本是直接通过程序提供转发功能，效率较低。），将流量转发到要访问的 pod 所在的节点上去。
+	Etcd：etcd 是一个分布式一致性k-v存储系统数据库，可用于服务注册发现与共享配置储数据库，用来存储kubernetes的信息的,etcd组件作为一个高可用、强一致性的服务发现存储仓库，渐渐为开发人员所关注。在云计算时代，如何让服务快速透明地接入到计算集群中，如何让共享配置信息快速被集群中的所有机器发现，更为重要的是，如何构建这样一套高可用、安全、易于部署以及响应快速的服务集群，etcd的诞生就是为解决该问题。
+	Flannel：Flannel是CoreOS 团队针对 Kubernetes 设计的一个覆盖网络（Overlay Network）工具，Flannel 目的就是为集群中的所有节点重新规划 IP 地址的使用规则，从而使得不同节点上的容器能够获得同属一个内网且不重复的 IP 地址，并让属于不同节点上的容器能够直接通过内网 IP 通信。
+1.1.5 	Kubernetes工作原理剖析
+Kubernetes集群是一组节点，这些节点可以是物理服务器或者虚拟机，在其上安装Kubernetes平台。下图为了强调核心概念有所简化。Kubernetes架构图。
+ 
+ 
+ 
+	从上图，我们可以看到K8S组件和逻辑关系：Kubernetes集群主要由Master和Node两类节点组成。Master的组件包括：Apiserver、Controller-manager、Scheduler和Etcd等几个组件，其中Apiserver是整个集群的网关。
+Node主要由kubelet、kube-proxy、docker引擎等组件组成。kubelet是K8S集群的工作与节点上的代理组件。
+在企业生产环境中，一个完整的K8S集群，还包括CoreDNS、Prometheus（或HeapSter）、Dashboard、Ingress Controller等几个附加组件。其中cAdivsor组件作用于各个节点（master和node节点）之上，用于收集及收集容器及节点的CPU、内存以及磁盘资源的利用率指标数据，这些统计数据由Heapster聚合后，可以通过apiserver访问。
+K8S集群中创建一个资源（Pod容器）的工作流程和步骤：
+	客户端提交创建（Deployment、Namespace、Pod）请求，可以通过API Server的Restful API，也可以使用kubectl命令行工具。
+	然后API Server处理用户的请求，并且存储相关的数据（Deployment、Namespace、Pod）到Etcd配置数据库中。
+	K8S Scheduler调度器通过API Server查看未绑定的Pod。尝试为该Pod分配Node主机资源。
+	过滤主机 (调度预选)：调度器用一组规则过滤掉不符合要求的主机。比如Pod指定了所需要的资源量，那么可用资源比Pod需要的资源量少的主机会被过滤掉。
+	主机打分(调度优选)：对第一步筛选出的符合要求的主机进行打分，在主机打分阶段，调度器会考虑一些整体优化策略，比如把容一个Replication Controller的副本分布到不同的主机上，使用最低负载的主机等。
+	选择主机：选择打分最高的主机，进行binding操作，结果存储到etcd中。
+	Node节点上Kubelet根据调度结果，调用主机上的Docker引擎执行Pod创建操作，绑定成功后，Scheduler会调用APIServer的API在etcd中创建一个boundpod对象，描述在一个工作节点上绑定运行的所有pod信息。
+	同时运行在每个工作节点上的Kubelet也会定期与etcd同步boundpod信息，一旦发现应该在该工作节点上运行的boundpod对象没有更新，则调用Docker API创建并启动pod内的容器。
+上图可以看到如下组件，使用特别的图标表示Service和Label：
+	Pod；
+	Container（容器）；
+	Label( )（标签）；
+	Replication Controller（复制控制器）；
+	Service（ ）（服务）；
+	Node（节点）；
+	Kubernetes Master（Kubernetes主节点）；
+1.1.6 	Pod概念剖析
+Pod（上图绿色方框）安排在节点上，包含一组容器和卷。同一个Pod里的容器共享同一个网络命名空间，可以使用localhost互相通信，Pod是短暂的，不是持续性实体。你可能会有这些问题：
+	如果Pod是短暂的，那么我怎么才能持久化容器数据使其能够跨重启而存在呢？ 是的，Kubernetes支持卷的概念，因此可以使用持久化的卷类型；
+	是否手动创建Pod，如果想要创建同一个容器的多份拷贝，需要一个个分别创建出来么？可以手动创建单个Pod，但是也可以使用Replication Controller使用Pod模板创建出多份拷贝，下文会详细介绍；
+	如果Pod是短暂的，那么重启时IP地址可能会改变，那么怎么才能从前端容器正确可靠地指向后台容器呢？这时可以使用Service。
+1.1.7 	Lable概念剖析
+如图所示，一些Pod有Label（ ）。一个Label是attach到Pod的一对键/值对，用来传递用户定义的属性。例如你可能创建了一个"tier"和“app”标签，通过Label（tier=frontend, app=myapp）来标记前端Pod容器，使用Label（tier=backend, app=myapp）标记后台Pod。然后可以使用Selectors选择带有特定Label的Pod，并且将Service或者Replication Controller应用到上面。
+1.1.8 	Replication Controller剖析
+是否手动创建Pod，如果想要创建同一个容器的多份拷贝，需要一个个分别创建出来么，能否将Pods划到逻辑组里？
+Replication Controller确保任意时间都有指定数量的Pod“副本”在运行。
+如果为某个Pod创建了Replication Controller并且指定3个副本，它会创建3个Pod，并且持续监控它们。如果某个Pod不响应，那么Replication Controller会替换它，保持总数为3.如下面的动画所示：
+ 
+如果之前不响应的Pod恢复了，现在就有4个Pod了，那么Replication Controller会将其中一个终止保持总数为3。如果在运行中将副本总数改为5，Replication Controller会立刻启动2个新Pod，保证总数为5。还可以按照这样的方式缩小Pod，这个特性在执行滚动升级时很有用。
+当创建Replication Controller时，需要指定两个东西：
+	Pod模板：用来创建Pod副本的模板
+	Label：Replication Controller需要监控的Pod的标签。
+现在已经创建了Pod的一些副本，那么在这些副本上如何均衡负载呢？我们需要的是Service。
+1.1.9 	Service概念剖析
+如果Pods是短暂的，那么重启时IP地址可能会改变，怎么才能从前端容器正确可靠地指向后台容器呢？
+Service是定义一系列Pod以及访问这些Pod的策略的一层抽象。Service通过Label找到Pod组。因为Service是抽象的，所以在图表里通常看不到它们的存在，这也就让这一概念更难以理解。
+现在，假定有2个后台Pod，并且定义后台Service的名称为‘backend-service’，lable选择器为（tier=backend, app=myapp）。backend-service 的Service会完成如下两件重要的事情：
+	会为Service创建一个本地集群的DNS入口，因此前端Pod只需要DNS查找主机名为 ‘backend-service’，就能够解析出前端应用程序可用的IP地址。
+	现在前端已经得到了后台服务的IP地址，但是它应该访问2个后台Pod的哪一个呢？Service在这2个后台Pod之间提供透明的负载均衡，会将请求分发给其中的任意一个（如下面的动画所示）。通过每个Node上运行的代理（kube-proxy）完成。这里有更多技术细节。
+下述动画展示了Service的功能。注意该图作了很多简化。如果不进入网络配置，那么达到透明的负载均衡目标所涉及的底层网络和路由相对先进。如果有兴趣，这里有更深入的介绍。
+ 
+有一个特别类型的Kubernetes Service，称为'LoadBalancer'，作为外部负载均衡器使用，在一定数量的Pod之间均衡流量。比如，对于负载均衡Web流量很有用。
+1.1.10 	Node概念剖析
+Node节点（上图橘色方框）是物理或者虚拟机器，作为Kubernetes worker，通常称为Minion。每个节点都运行如下Kubernetes关键组件：
+	Kubelet：是主节点代理；
+	Kube-proxy：Service使用其将链接路由到Pod，如上文所述；
+	Docker或Rocket：Kubernetes使用的容器技术来创建容器。
+1.1.11 	Kubernetes Master概念剖析
+Kubernetes集群拥有一个Kubernetes Master（紫色方框）。Kubernetes Master提供集群的独特视角，并且拥有一系列组件，比如Kubernetes API Server。API Server提供可以用来和集群交互的REST端点。master节点包括用来创建和复制Pod的Replication Controller。
+1.1.12 	K8S Volume概念剖析
+在Docker中，也有volumes这个概念，volume只是磁盘上一个简单的目录，或者其他容器中的volume。生命周期也不受管理，并且直到最近他们都是基于本地后端存储的。Docker现在也提供了volume driver，但是现在来说功能也较弱（比如官网提到的Ceph volume driver，现在已经没有维护了）。
+　　Kubernetes的volume，有着明显的生命周期——和使用它的pod生命周期一致。因此，volume生命周期就比运行在pod中的容器要长久，即使容器重启，volume上的数据依然保存着。当然，pod不再存在时，volume也就消失了。更重要的是，Kubernetes支持多种类型的volume，并且pod可以同时使用多种类型的volume。
+　　内部实现中，volume只是一个目录，目录中可能有一些数据，pod的容器可以访问这些数据。这个目录是如何产生的，它后端基于什么存储介质，其中的数据内容是什么，这些都由使用的特定volume类型来决定。
+　　要使用volume，pod需要指定volume的类型和内容（spec.volumes字段），和映射到容器的位置（spec.containers.volumeMounts字段）。
+容器中的进程可以看到Docker image和volumes组成的文件系统。Docker image处于文件系统架构的root，任何volume都映射在镜像的特定路径上。Volume不能映射到其他volume上，或者硬链接到其他volume。容器中的每个容器必须堵路地指定他们要映射的volume。
+Kubernetes支持很多种类的volume，包括：emptyDir、hostPath、gcePersistentDisk、awsElasticBlockStore、nfs、iscsi、flocker、glusterfs、rbd、cephfs、gitRepo、secret、persistentVolumeClaim等。
+1.1.13 	Deployment概念剖析
+Deployment为Pod和Replica Set提供声明式更新和部署，你只需要在 Deployment 中描述您想要的目标状态是什么，Deployment controller 就会帮您将 Pod 和ReplicaSet 的实际状态改变到您的目标状态。
+您可以定义一个全新的 Deployment 来创建 ReplicaSet 或者删除已有的 Deployment 并创建一个新的来替换。
+注意：您不该手动管理由 Deployment 创建的 Replica Set，否则您就篡越了 Deployment controller 的职责。
+1.1.14 	DaemonSet概念剖析
+DaemonSet对象能确保其创建的Pod在集群中的每一台（或指定）Node上都运行一个副本。如果集群中动态加入了新的Node，DaemonSet中的Pod也会被添加在新加入Node上运行。删除一个DaemonSet也会级联删除所有其创建的Pod。Daemon Set和DeployMent区别如下：
+	Deployment 部署 Pod 会分布在各个 Node 上， Node 可能运行好几个副本。
+	DaemonSet 部署 Pod 会分布在各个 Node 上，每个Node只能运行一个Pod。
+如下为DaemonSet的使用场景：
+	在每台节点上运行一个集群存储服务，例如运行glusterd，ceph。
+	在每台节点上运行一个日志收集服务，例如fluentd，logstash。
+	在每台节点上运行一个节点监控服务，例如Prometheus Node Exporter, collectd, Datadog agent, New Relic agent, 或Ganglia gmond
+1.1.15 	StatefulSet概念剖析
+K8S RC、Deployment、DaemonSet都是面向无状态的服务，它们所管理的Pod的IP、名字，启停顺序等都是随机的，而StatefulSet是什么？顾名思义，有状态的集合，管理所有有状态的服务，比如MySQL、MongoDB集群等。
+StatefulSet本质上是Deployment的一种变体，在v1.9版本中已成为GA版本，它为了解决有状态服务的问题，它所管理的Pod拥有固定的Pod名称，启停顺序，在StatefulSet中，Pod名字称为网络标识(hostname)，还必须要用到共享存储。
+在Deployment中，与之对应的服务是Service，而在StatefulSet中与之对应的headless service，headless service，即无头服务，与service的区别就是它没有Cluster IP，解析它的名称时将返回该Headless Service对应的全部Pod的Endpoint列表。
+1.1.16 	Config map概念剖析
+在企业生产环境中，我们经常会遇到需要修改配置文件的情况，例如WEB网站连接数据库的配置，业务系统之间相互调用配置、K8S Pod配置信息等，如果使用传统手工方式去修改不仅会影响到服务的正常运行，而且操作步骤也很繁琐。
+传统的应用服务，每个服务都有自己的配置文件，各自配置文件存储在服务所在节点，对于单体应用，这种存储没有任何问题，但是随着用户数量的激增，一个节点不能满足线上用户使用，故服务可能从一个节点扩展到十个节点，这就导致，如果有一个配置出现变更，就需要对应修改十次配置文件。
+这种人肉处理，显然不能满足线上部署要求，故引入了各种类似于 ZooKeeper 中间件实现的配置中心，但配置中心属于 “侵入式” 设计，需要修改引入第三方类库，它要求每个业务都调用特定的配置接口，破坏了系统本身的完整性。
+Kubernetes 利用了 Volume 功能，完整设计了一套配置中心，其核心对象就是ConfigMap，使用过程不用修改任何原有设计，即可无缝对 ConfigMap。
+Kubernetes项目从1.2.0版本引入了ConfigMap功能，主要用于将APP应用的配置信息与程序的分离。这种方式不仅可以实现应用程序被的复用，而且还可以通过不同的配置实现更灵活的功能。
+在创建容器时，用户可以将应用程序打包为容器镜像后，通过环境变量或者外接挂载文件的方式进行配置注入。使用ConfigMap非常的灵活，相当于把配置文件信息单独存储在某处，需要时直接引用、挂载即可。
+	ConfigMap是以key:value（K-V）的形式保存配置项，既可以用于表示一个变量的值（例如config=info），也可以用于表示一个完整配置文件的内容（例如server.xml=<?xml…>…）。ConfigMap在容器使用的典型用法如下：
+	将配置项设置为容器内的环境变量。
+	将启动参数设置为环境变量。
+	以Volume的形式挂载到容器内部的文件或目录。
+可以基于kubectl create指令创建ConfigMap，例如使用ConfigMap来存储MYSQL数据库的IP和端口信息：
+kubectl create configmap mysql-config --from-literal=db.host=192.168.1.111 --from-literal=db.port=3306
+kubectl get configmap mysql-config -o yaml
+ 
+1.1.17 	Secrets概念剖析
+在Kubernetes集群中， Secrets通常用于存储和管理一些敏感数据，例如：密码、token、密钥等敏感信息。它把 Pod 想要访问的加密数据存放到 Etcd 中。
+用户就可以通过在 Pod 的容器里挂载 Volume 的方式或者环境变量的方式访问到这些 Secret 里保存的信息了。Secret有三种类型：
+	Opaque
+用来存储密码、密钥等，base64 编码格。但数据也可以通过base64 –decode解码得到原始数据，所有加密性很弱。
+	Service Account
+用来访问Kubernetes API，由Kubernetes自动创建，并且会自动挂载到Pod的 /run/secrets/kubernetes.io/serviceaccount 目录中。
+	kubernetes.io/dockerconfigjson
+用来存储私有docker registry的认证信息。
+1.1.18 	CronJob概念剖析
+Cron Job 是创建基于时间调度的 Jobs。一个CronJob 对象就像Crontab (Cron table) 文件中的一行。 它用 Cron格式进行编写，并周期性地在给定的调度时间执行 Job。所有 CronJob 的 schedule: 时间都是基于 kube-controller-manager.的时区。
+如果你的控制平面在 Pod 或是裸容器中运行了 kube-controller-manager， 那么为该容器所设置的时区将会决定 Cron Job 的控制器所使用的时区。
+为 CronJob 资源创建清单时，请确保所提供的名称是一个合法的 DNS 子域名. 名称不能超过 52 个字符。 这是因为 CronJob 控制器将自动在提供的 Job 名称后附加 11 个字符，并且存在一个限制， 即 Job 名称的最大长度不能超过 63 个字符。
+CronJobs 对于创建周期性的、反复重复的任务很有用，例如执行数据备份或者发送邮件。 CronJobs 也可以用来计划在指定时间来执行的独立任务，例如计划当集群看起来很空闲时 执行某个 Job。 CronJob 案例会在每分钟打印出当前时间和问候消息：
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+ 
+CronJob时间表语法：
+# ┌───────────── 分 (0 - 59)
+# │ ┌───────────── 时 (0 - 23)
+# │ │ ┌───────────── 日 (1 - 31)
+# │ │ │ ┌───────────── 月 (1 - 12)
+# │ │ │ │ ┌───────────── 星期 (0 - 6) （周日到周一；在某些系统上，7 也是星期日）
+# │ │ │ │ │                                   
+# │ │ │ │ │
+# │ │ │ │ │
+# * * * * *
+1.2 	K8S证书剖析&制作实战
+Kubernetes 需要公钥基础设施（Public Key Infrastructure，简称PKI）证书才能进行基于安全传输层协议（Transport Layer Security，简称TLS，主要用于在两个通信应用程序之间提供保密性和数据完整性。）的身份验证。如果你是使用 kubeadm 安装的 Kubernetes， 则会自动生成集群所需的证书。你还可以生成自己的证书。 例如，不将私钥存储在 API 服务器上，可以让私钥更加安全。如果你是通过 kubeadm 安装的 Kubernetes，所有证书都存放在 /etc/kubernetes/pki 目录下。本文所有相关的路径都是基于该路径的相对路径。
+PKI 采用证书进行公钥管理，通过第三方的可信任机构（认证中心，即CA），把用户的公钥和用户的其他标识信息捆绑在一起，其中包括用户名和电子邮件地址等信息，以在Internet网上验证用户的身份。PKI把公钥密码和对称密码结合起来，在Internet网上实现密钥的自动管理，保证网上数据的安全传输。
+K8S集群中需要的证书环节，如下所示：
+	Etcd对外提供服务，需要一套etcd server证书；
+	Etcd各节点之间进行通信，需要一套etcd peer证书；
+	Kube-apiserver访问Etcd，需要一套etcd client证书；
+	Kube-apiserver对外提供服务，需要一套kube-apiserver server证书；
+	kube-scheduler、kube-controller-manager、kube-proxy、kubelet和其他可能用到的组件，需要访问kube-APIserver，需要一套kube-apiserver client证书；
+	kube-controller-manager要生成服务的service account，需要一套用来签署service account的证书(CA证书)；
+	kubelet对外提供服务，需要一套kubelet server证书；
+	kube-APIserver需要访问kubelet，需要一套kubelet client证书。
+同一个套内的证书必须是用同一个CA签署的，签署不同套里的证书的CA可以相同，也可以不同。例如所有etcd server证书需要是同一个CA签署的，所有的etcd peer证书也需要是同一个CA签署的，而一个etcd server证书和一个etcd peer证书，完全可以是两个CA机构签署的，彼此没有任何关系。这里就要算两套证书。
+	虽然可以用多套证书，但是维护多套CA实在过于繁杂，这里还是用一个CA签署所有证书。
+1)	需要准备的证书：
+admin.pem
+ca.-key.pem
+ca.pem
+admin-key.pem
+admin.pem
+kube-scheduler-key.pem
+kube-scheduler.pem
+kube-controller-manager-key.pem
+kube-controller-manager.pem
+kube-proxy-key.pem
+kube-proxy.pem
+kubernetes-key.pem
+kubernetes.pem
+2)	使用证书的组件如下：
+	etcd
+ca.pem kubernetes-key.pem kubernetes.pem 
+	kube-apiserver
+ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem
+	Kubelet
+ca.pem
+	kube-proxy
+ca.pem kube-proxy-key.pem kube-proxy.pem
+	Kubectl
+ca.pem admin-key.pem、admin.pem
+	kube-controller-manager
+ca-key.pem ca.pem kube-controller-manager-key.pem kube-controller-manager.pem
+	kube-scheduler
+kube-scheduler-key.pem kube-scheduler.pem
+	此处我们使用CFSSL来制作证书，它是Cloudflare开发的一个开源的PKI工具，是一个完备的CA服务系统，可以签署、撤销证书等，覆盖了一个证书的整个生命周期，后面只用到了它的命令行工具。
+注：一般情况下，K8S中证书只需要创建一次，以后在向集群中添加新节点时只要将/etc/kubernetes/ssl目录下的证书拷贝到新节点上即可。
+wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64
+chmod +x cfssl_linux-amd64 cfssljson_linux-amd64 cfssl-certinfo_linux-amd64
+mv cfssl_linux-amd64 /usr/local/bin/cfssl
+mv cfssljson_linux-amd64 /usr/local/bin/cfssljson
+mv cfssl-certinfo_linux-amd64 /usr/bin/cfssl-certinfo
+3)	创建CA证书，配置文件；
+cat>ca-config.json<<EOF
+{
+  "signing": {
+    "default": {
+      "expiry": "87600h"
+    },
+    "profiles": {
+      "kubernetes": {
+        "usages": [
+            "signing",
+            "key encipherment",
+            "server auth",
+            "client auth"
+        ],
+        "expiry": "87600h"
+      }
+    }
+  }
+}
+EOF
+字段说明：
+ca-config.json：可以定义多个 profiles，分别指定不同的过期时间、使用场景等参数；后续在签名证书时使用某个 profile；
+signing：表示该证书可以签名其他证书；生成的ca.pem证书中 CA=TRUE；
+server auth：表示client可以用该 CA 对server提供的证书进行验证；
+client auth：表示server可以用该CA对client提供的证书进行验证；
+expiry：过期时间
+4)	创建CA证书签名请求文件；
+cat>ca-csr.json<<EOF
+{
+  "CN": "kubernetes",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CN",
+      "ST": "BeiJing",
+      "L": "BeiJing",
+      "O": "k8s",
+      "OU": "System"
+    }
+  ],
+    "ca": {
+       "expiry": "87600h"
+    }
+}
+EOF
+字段说明：
+“CN”：Common Name，kube-apiserver 从证书中提取该字段作为请求的用户名 (User Name)；浏览器使用该字段验证网站是否合法；
+“O”：Organization，kube-apiserver 从证书中提取该字段作为请求用户所属的组 (Group)
+6）生成CA证书和私钥；
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+ls | grep ca
+ca-config.json
+ca.csr
+ca-csr.json
+ca-key.pem
+ca.pem
+其中ca-key.pem是ca的私钥，ca.csr是一个签署请求，ca.pem是CA证书，是后面kubernetes组件会用到的RootCA。
+7）创建kubernetes证书；
+创建kubernetes证书签名请求文件 
+vim kubernetes-csr.json
+{
+    "CN": "kubernetes",
+    "hosts": [
+      "127.0.0.1",
+      "192.168.1.145",
+      "192.168.1.146",
+      "etcd01",
+      "kubernetes",
+      "kube-api.jd.com",
+      "kubernetes.default",
+      "kubernetes.default.svc",
+      "kubernetes.default.svc.cluster",
+      "kubernetes.default.svc.cluster.local"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "CN",
+            "ST": "BeiJing",
+            "L": "BeiJing",
+            "O": "k8s",
+            "OU": "System"
+        }
+    ]
+}
+字段说明：
+如果 hosts 字段不为空则需要指定授权使用该证书的 IP 或域名列表。
+由于该证书后续被 etcd 集群和 kubernetes master 集群使用，将etcd、master节点的IP都填上，同时还有service网络的首IP。(一般是 kube-apiserver 指定的 service-cluster-ip-range 网段的第一个IP，如 10.0.0.1)
+三个etcd，三个master，以上物理节点的IP也可以更换为主机名。
+8）生成kubernetes证书和私钥；
+cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kubernetes-csr.json | cfssljson -bare kubernetes
+ls |grep kubernetes
+kubernetes.csr
+kubernetes-csr.json
+kubernetes-key.pem
+kubernetes.pem
+9）创建admin证书，创建admin证书签名请求文件
+ vim admin-csr.json
+{
+  "CN": "admin",
+  "hosts": [],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CN",
+      "ST": "BeiJing",
+      "L": "BeiJing",
+      "O": "system:masters",
+      "OU": "System"
+    }
+  ]
+}
+说明：
+后续 kube-apiserver 使用 RBAC 对客户端(如 kubelet、kube-proxy、Pod)请求进行授权；
+kube-apiserver 预定义了一些 RBAC 使用的 RoleBindings，如 cluster-admin 将 Group system:masters 与 Role cluster-admin 绑定，该 Role 授予了调用kube-apiserver 的所有 API的权限；
+O指定该证书的 Group 为 system:masters，kubelet 使用该证书访问 kube-apiserver 时 ，由于证书被 CA 签名，所以认证通过，同时由于证书用户组为经过预授权的 system:masters，所以被授予访问所有 API 的权限；
+注：这个admin 证书，是将来生成管理员用的kube config 配置文件用的，现在我们一般建议使用RBAC 来对kubernetes 进行角色权限控制， kubernetes 将证书中的CN 字段 作为User， O 字段作为 Group
+10）生成admin证书和私钥；
+cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes admin-csr.json | cfssljson -bare admin
+ls | grep admin
+admin.csr
+admin-csr.json
+admin-key.pem
+admin.pem
+11）创建kube-proxy证书，创建 kube-proxy 证书签名请求文件 
+vim kube-proxy-csr.json
+{
+  "CN": "system:kube-proxy",
+  "hosts": [],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CN",
+      "ST": "BeiJing",
+      "L": "BeiJing",
+      "O": "k8s",
+      "OU": "System"
+    }
+  ]
+}
+说明：
+CN 指定该证书的 User 为 system:kube-proxy；
+kube-apiserver 预定义的 RoleBinding system:node-proxier 将User system:kube-proxy 与 Role system:node-proxier 绑定，该 Role 授予了调用 kube-apiserver Proxy 相关 API 的权限；
+该证书只会被 kubectl 当做 client 证书使用，所以 hosts 字段为空 
+生成kube-proxy证书和私钥
+cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes  kube-proxy-csr.json | cfssljson -bare kube-proxy
+ls |grep kube-proxy
+kube-proxy.csr
+kube-proxy-csr.json
+kube-proxy-key.pem
+kube-proxy.pem
+13）创建kube-controoler-manager证书，创建其证书签名请求文件  
+vim kube-controller-manager-csr.json
+{
+    "CN": "system:kube-controller-manager",
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "hosts": [
+      "127.0.0.1",
+      "192.168.1.145",
+      "192.168.1.146",
+	  "k8s-master1",
+    ],
+    "names": [
+      {
+        "C": "CN",
+        "ST": "BeiJing",
+        "L": "BeiJing",
+        "O": "system:kube-controller-manager",
+        "OU": "system"
+      }
+    ]
+} 
+说明：
+hosts 列表包含所有 kube-controller-manager 节点 IP；
+CN 为 system:kube-controller-manager、O 为 system:kube-controller-manager，kubernetes 内置的 ClusterRoleBindings system:kube-controller-manager 赋予 kube-controller-manager 工作所需的权限
+生成kube-controoller-manager证书和私钥
+cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kube-controller-manager-csr.json | cfssljson -bare kube-controller-manager 
+创建kube-scheduler证书 
+创建 kube-scheduler 证书签名请求文件
+vim kube-scheduler-csr.json 
+{
+    "CN": "system:kube-scheduler",
+    "hosts": [
+      "127.0.0.1",
+      "192.168.1.145",
+      "192.168.1.146",
+	  "k8s-master1",
+
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "ST": "BeiJing",
+        "L": "BeiJing",
+        "O": "system:kube-scheduler",
+        "OU": "4Paradigm"
+      }
+    ]
+}
+说明：
+hosts 列表包含所有 kube-scheduler 节点 IP；
+CN 为 system:kube-scheduler、O 为 system:kube-scheduler，kubernetes 内置的 ClusterRoleBindings system:kube-scheduler 将赋予 kube-scheduler 工作所需的权限。
+经过上述操作，我们会用到如下文件
+cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kube-scheduler-csr.json| cfssljson -bare kube-scheduler
+ls | grep pem
+admin-key.pem
+admin.pem
+ca-key.pem
+ca.pem
+kube-proxy-key.pem
+kube-proxy.pem
+kubernetes-key.pem
+kubernetes.pem
+kube-controller-manager-key.pem
+kube-controller-manager.pem
+kube-scheduler-key.pem
+kube-scheduler.pem
+查看证书信息： 
+cfssl-certinfo -cert kubernetes.pem
+在搭建k8s集群的时候，将这些文件分发到至此集群中其他节点机器中即可。至此，TLS证书创建完毕。
+
+
